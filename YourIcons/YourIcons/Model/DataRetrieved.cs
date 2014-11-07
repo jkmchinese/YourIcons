@@ -104,37 +104,15 @@ namespace YourIcons.Model
             m_doc = XElement.Load(m_filePath);
             foreach (var xn in m_doc.Elements())
             {
-                if (xn == null)
+                var icon = GetIconFromElement(xn);
+                if (icon != null)
                 {
-                    continue;
+                    m_iconLists.Add(icon);
                 }
-                var icon = new Icon();
-                if (xn.Attribute("Name") == null)
+                else
                 {
-                    continue;
+                    Debug.WriteLine("LoadData has icon error:" + xn);
                 }
-                icon.Name = xn.Attribute("Name").Value;
-                if (xn.Attribute("Data") == null)
-                {
-                    continue;
-                }
-                icon.Data = xn.Attribute("Data").Value;
-                if (xn.Attribute("Height") == null)
-                {
-                    continue;
-                }
-                icon.Height = double.Parse(xn.Attribute("Height").Value);
-                if (xn.Attribute("Width") == null)
-                {
-                    continue;
-                }
-                icon.Width = double.Parse(xn.Attribute("Width").Value);
-                if (xn.Attribute("Keyword") == null)
-                {
-                    continue;
-                }
-                icon.Keyword = xn.Attribute("Keyword").Value;
-                m_iconLists.Add(icon);
             }
         }
 
@@ -199,6 +177,7 @@ namespace YourIcons.Model
             target.Attribute("Data").Value = source.Attribute("Data").Value;
             target.Attribute("Keyword").Value = source.Attribute("Keyword").Value;
         }
+
         private bool SaveData(IEnumerable<XElement> elements)
         {
             try
@@ -217,7 +196,7 @@ namespace YourIcons.Model
             }
         }
 
-        private XElement GetElementFromIcon(Icon icon)
+        public XElement GetElementFromIcon(Icon icon)
         {
             var xe = new XElement("item",
                 new XAttribute("Name", icon.Name),
@@ -228,5 +207,26 @@ namespace YourIcons.Model
                 );
             return xe;
         }
+
+        public Icon GetIconFromElement(XElement element)
+        {
+            if (element == null ||
+                element.Attribute("Name") == null ||
+                element.Attribute("Data") == null ||
+                element.Attribute("Height") == null ||
+                element.Attribute("Width") == null)
+                return null;
+            var icon = new Icon();
+            icon.Name = element.Attribute("Name").Value;
+            icon.Width = Math.Round(double.Parse(element.Attribute("Width").Value));
+            icon.Height = Math.Round(double.Parse(element.Attribute("Height").Value));
+            icon.Data = element.Attribute("Data").Value;
+
+            if (element.Attribute("Keyword") != null)
+                icon.Keyword = element.Attribute("Keyword").Value;
+
+            return icon;
+        }
+
     }
 }
