@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ModernUI.Presentation;
+using YourIcons.Model;
 using YourIcons.View;
 
 namespace YourIcons.ViewModel
@@ -13,9 +14,12 @@ namespace YourIcons.ViewModel
     public class NavViewModel : ViewModelBase
     {
         private string m_searchStr;
-        private ICommand m_addIconCmd;
-        private ICommand m_batchAddIconCmd;
+        private readonly ICommand m_addIconCmd;
+        private readonly ICommand m_batchAddIconCmd;
+        private readonly ICommand m_changeViewTypeCmd;
+        private ViewType m_selectedViewType;
         private IconEntityWindow m_addIconWindow;
+        private BatchAddIconWindow m_batchAddIconWindow;
 
         public string SearchStr
         {
@@ -30,6 +34,22 @@ namespace YourIcons.ViewModel
                     m_searchStr = value;
                     OnPropertyChanged(() => this.SearchStr);
                     OnSearchStrChanged();
+                }
+            }
+        }
+
+        public ViewType SelectedViewType
+        {
+            get
+            {
+                return m_selectedViewType;
+            }
+            set
+            {
+                if (m_selectedViewType != value)
+                {
+                    m_selectedViewType = value;
+                    OnPropertyChanged(() => this.SelectedViewType);
                 }
             }
         }
@@ -50,10 +70,37 @@ namespace YourIcons.ViewModel
             }
         }
 
+        public ICommand ChangeViewTypeCmd
+        {
+            get
+            {
+                return m_changeViewTypeCmd;
+            }
+        }
+
+
         public NavViewModel()
         {
             m_addIconCmd = new RelayCommand(AddIconCmdExcute, CanAddIconCmdExcute);
             m_batchAddIconCmd = new RelayCommand(BatchAddIconCmdExcute, CanBatchAddIconCmdExcute);
+            m_changeViewTypeCmd = new RelayCommand(ChangeViewTypeCmdExcute, CanChangeViewTypeCmdExcute);
+        }
+
+        private bool CanChangeViewTypeCmdExcute(object arg)
+        {
+            return true;
+        }
+
+        private void ChangeViewTypeCmdExcute(object obj)
+        {
+            if (obj.ToString() == "Tile")
+            {
+                SelectedViewType = ViewType.Tile;
+            }
+            else
+            {
+                SelectedViewType = ViewType.List;
+            }
         }
 
         private bool CanBatchAddIconCmdExcute(object arg)
@@ -65,11 +112,8 @@ namespace YourIcons.ViewModel
         {
             m_batchAddIconWindow = new BatchAddIconWindow();
             m_batchAddIconWindow.DataContext = new BatchAddIconViewModel(m_batchAddIconWindow);
-            m_batchAddIconWindow.Owner = Application.Current.MainWindow;
-            m_batchAddIconWindow.ShowDialog();
+            m_batchAddIconWindow.Show();
         }
-
-
 
         private bool CanAddIconCmdExcute(object arg)
         {
@@ -87,8 +131,6 @@ namespace YourIcons.ViewModel
             m_addIconWindow.ShowDialog();
         }
 
-
-
         private void OnSearchStrChanged()
         {
             if (SearchStrChanged != null)
@@ -98,6 +140,5 @@ namespace YourIcons.ViewModel
         }
 
         public event EventHandler<EventArgs> SearchStrChanged;
-        private BatchAddIconWindow m_batchAddIconWindow;
     }
 }

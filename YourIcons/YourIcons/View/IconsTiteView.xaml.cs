@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,22 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ModernUI.UIHelper;
-using YourIcons.Model;
-using YourIcons.ViewModel;
 
 namespace YourIcons.View
 {
     /// <summary>
-    /// Interaction logic for IconsView.xaml
+    /// Interaction logic for IconsTiteView.xaml
     /// </summary>
-    public partial class IconsView : UserControl
+    public partial class IconsTiteView : UserControl
     {
-        private ScrollViewer m_scrollViewer;
-        public IconsView()
+        public IconsTiteView()
         {
             InitializeComponent();
-            this.DataContext = ViewModelRetrived.Instance.IconsViewModelInstance;
         }
     }
 }

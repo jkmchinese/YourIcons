@@ -8,6 +8,7 @@
                 <ResourceDictionary Source="/LWLCX.ModernUI;component/Assets/ModernUI.xaml" />
                 <ResourceDictionary Source="/LWLCX.ModernUI;component/Assets/ModernUI.Dark.xaml" />
                 <ResourceDictionary Source="/YourIcons;component/Styles/YourIconsWindowStyle.xaml" />
+                <ResourceDictionary Source="/YourIcons;component/Styles/IconsViewStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

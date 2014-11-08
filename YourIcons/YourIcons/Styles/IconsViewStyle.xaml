@@ -1,0 +1,120 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ContextMenu x:Key="ContextMenu">
+        <MenuItem Header="Copy (_P)ath"
+                  Command="{Binding Path=DataContext.CopyPathCmd, 
+                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
+        <MenuItem Header="Copy (_D)ata"
+                  Command="{Binding Path=DataContext.CopyPathDataCmd, 
+                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
+        <Separator />
+        <MenuItem Header="(_E)xport"></MenuItem>
+        <MenuItem Header="(_F)avorite"></MenuItem>
+        <Separator />
+        <MenuItem Header="Delete"
+                  Command="{Binding Path=DataContext.DeleteCmd, 
+                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
+        <Separator />
+        <MenuItem Header="Edit"
+                  Command="{Binding Path=DataContext.EditCmd, 
+                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
+    </ContextMenu>
+
+    <ContentControl x:Key="TooltipContentControl"
+                    x:Shared="True">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="2"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0"
+                        MinWidth="50"
+                        Opacity=".6">
+                <TextBlock HorizontalAlignment="Right"
+                           Text="Name:"
+                           FontWeight="Bold"></TextBlock>
+                <TextBlock HorizontalAlignment="Right"
+                           Text="Width:"
+                           FontWeight="Bold"></TextBlock>
+                <TextBlock HorizontalAlignment="Right"
+                           Text="Height:"
+                           FontWeight="Bold"></TextBlock>
+                <TextBlock HorizontalAlignment="Right"
+                           Text="Keyword:"
+                           FontWeight="Bold"></TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        MinWidth="60">
+                <TextBlock Text="{Binding Name}"></TextBlock>
+                <TextBlock Text="{Binding Width}"></TextBlock>
+                <TextBlock Text="{Binding Height}"></TextBlock>
+                <TextBlock Text="{Binding Keyword}"></TextBlock>
+            </StackPanel>
+        </Grid>
+    </ContentControl>
+
+    <Style TargetType="{x:Type ListBoxItem}"
+           x:Key="Style"
+           BasedOn="{StaticResource FlatListBoxItem}">
+        <Setter Property="ContextMenu"
+                Value="{StaticResource ContextMenu}"></Setter>
+        <Setter Property="ToolTip"
+                Value="{StaticResource TooltipContentControl}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Bd"
+                            Margin="5"
+                            Background="#01FFFFFF"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <!--<mui:ModernButton EllipseDiameter="48"
+                                                  EllipseStrokeThickness="0"
+                                                  IconWidth="28"
+                                                  IconHeight="28"
+                                                  IconData="{Binding Data}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"></mui:ModernButton>-->
+                            <Path Data="{Binding Data}"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Width="32"
+                                  Height="32"
+                                  Stretch="Uniform"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"></Path>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="true">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="{DynamicResource ItemBackgroundHover}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource ItemTextHover}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected"
+                                 Value="true">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="{DynamicResource ItemBackgroundSelected}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource ItemTextSelected}" />
+                            <Setter Property="FontWeight"
+                                    Value="Bold" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource ItemTextDisabled}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

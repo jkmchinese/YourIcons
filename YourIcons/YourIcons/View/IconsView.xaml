@@ -4,127 +4,87 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mui="http://lwlcx.com.cn/ModernUI"
+             xmlns:view="clr-namespace:YourIcons.View"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:model="clr-namespace:YourIcons.Model"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
     <UserControl.Resources>
-        <ContextMenu x:Key="ContextMenu">
-            <MenuItem Header="Copy (_P)ath"
-                      Command="{Binding Path=DataContext.CopyPathCmd, 
-                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
-            <MenuItem Header="Copy (_D)ata"
-                      Command="{Binding Path=DataContext.CopyPathDataCmd, 
-                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
-            <Separator />
-            <MenuItem Header="(_E)xport"></MenuItem>
-            <MenuItem Header="(_F)avorite"></MenuItem>
-            <Separator />
-            <MenuItem Header="Delete"
-                      Command="{Binding Path=DataContext.DeleteCmd, 
-                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
-            <Separator />
-            <MenuItem Header="Edit"
-                      Command="{Binding Path=DataContext.EditCmd, 
-                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
-        </ContextMenu>
 
-        <ContentControl x:Key="TooltipContentControl"
-                        x:Shared="True">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="2"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0"
-                            MinWidth="50"
-                            Opacity=".6">
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="Name:"
-                               FontWeight="Bold"></TextBlock>
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="Width:"
-                               FontWeight="Bold"></TextBlock>
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="Height:"
-                               FontWeight="Bold"></TextBlock>
-                    <TextBlock HorizontalAlignment="Right"
-                               Text="Keyword:"
-                               FontWeight="Bold"></TextBlock>
-                </StackPanel>
-                <StackPanel Grid.Column="2"
-                            HorizontalAlignment="Left"
-                            MinWidth="60">
-                    <TextBlock Text="{Binding Name}"></TextBlock>
-                    <TextBlock Text="{Binding Width}"></TextBlock>
-                    <TextBlock Text="{Binding Height}"></TextBlock>
-                    <TextBlock Text="{Binding Keyword}"></TextBlock>
-                </StackPanel>
-            </Grid>
-        </ContentControl>
-
-        <Style TargetType="{x:Type ListBoxItem}"
-               x:Key="Style"
-               BasedOn="{StaticResource FlatListBoxItem}">
-            <Setter Property="ContextMenu"
-                    Value="{StaticResource ContextMenu}"></Setter>
-            <Setter Property="ToolTip"
-                    Value="{StaticResource TooltipContentControl}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="Bd"
-                                Margin="5"
-                                Background="#01FFFFFF"
-                                SnapsToDevicePixels="True">
-                            <Grid>
-                                <!--<mui:ModernButton EllipseDiameter="48"
-                                                  EllipseStrokeThickness="0"
-                                                  IconWidth="28"
-                                                  IconHeight="28"
-                                                  IconData="{Binding Data}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"></mui:ModernButton>-->
-                                <Path Data="{Binding Data}"
-                                      Fill="{TemplateBinding Foreground}"
-                                      Width="32"
-                                      Height="32"
-                                      Stretch="Uniform"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"></Path>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver"
-                                     Value="true">
-                                <Setter TargetName="Bd"
-                                        Property="Background"
-                                        Value="{DynamicResource ItemBackgroundHover}" />
-                                <Setter Property="Foreground"
-                                        Value="{DynamicResource ItemTextHover}" />
-                            </Trigger>
-                            <Trigger Property="IsSelected"
-                                     Value="true">
-                                <Setter TargetName="Bd"
-                                        Property="Background"
-                                        Value="{DynamicResource ItemBackgroundSelected}" />
-                                <Setter Property="Foreground"
-                                        Value="{DynamicResource ItemTextSelected}" />
-                                <Setter Property="FontWeight"
-                                        Value="Bold" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled"
-                                     Value="false">
-                                <Setter Property="Foreground"
-                                        Value="{DynamicResource ItemTextDisabled}" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
     <Grid Margin="2">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="PanelNavigationStates">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.5">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <BackEase EasingMode="EaseOut"
+                                      Amplitude="0.1" />
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="TileState">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)"
+                                                       Storyboard.TargetName="IconsListView">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <system:Boolean>False</system:Boolean>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation Duration="1"
+                                         To="0"
+                                         Storyboard.TargetProperty="Opacity"
+                                         Storyboard.TargetName="IconsListView"
+                                         d:IsOptimized="True" />
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="IconsListView">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5"
+                                                    Value="{x:Static Visibility.Collapsed}" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="ListState">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)"
+                                                       Storyboard.TargetName="IconsTiteView">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <system:Boolean>False</system:Boolean>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation Duration="1"
+                                         To="0"
+                                         Storyboard.TargetProperty="Opacity"
+                                         Storyboard.TargetName="IconsTiteView"
+                                         d:IsOptimized="True" />
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)"
+                                                       Storyboard.TargetName="IconsTiteView">
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5"
+                                                    Value="{x:Static Visibility.Collapsed}" />
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <i:Interaction.Triggers>
+            <mui:DataTriggerEvaluateOnLoad Binding="{Binding CurrentViewType}"
+                                           Value="{x:Static model:ViewType.Tile}">
+                <ei:GoToStateAction x:Name="TileTrigger"
+                                    StateName="TileState" />
+            </mui:DataTriggerEvaluateOnLoad>
+            <mui:DataTriggerEvaluateOnLoad Binding="{Binding CurrentViewType}"
+                                           Value="{x:Static model:ViewType.List}">
+                <ei:GoToStateAction x:Name="ListTrigger"
+                                    StateName="ListState" />
+            </mui:DataTriggerEvaluateOnLoad>
+        </i:Interaction.Triggers>
+
         <TextBlock HorizontalAlignment="Right"
                    VerticalAlignment="Bottom"
                    Text="{Binding IconList.Count}"
@@ -132,19 +92,7 @@
                    Margin="20 1"
                    Opacity=".1"
                    FontSize="32"></TextBlock>
-        <ListBox ItemContainerStyle="{StaticResource Style}"
-                 Background="Transparent"
-                 ItemsSource="{Binding IconList}"
-                 x:Name="IconsListBox"
-                 SelectedIndex="0"
-                 SelectedItem="{Binding SelectedIcon}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <mui:VirtualizingWrapPanel ItemHeight="64"
-                                               ItemWidth="64"
-                                               Orientation="Horizontal"></mui:VirtualizingWrapPanel>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+        <view:IconsTiteView x:Name="IconsTiteView" />
+        <view:IconsListView x:Name="IconsListView" />
     </Grid>
 </UserControl>

@@ -5,10 +5,7 @@
                     xmlns:controls="clr-namespace:YourIcons.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/LWLCX.ModernUI;component/Assets/Button.xaml" />
-        <ResourceDictionary Source="/LWLCX.ModernUI;component/Assets/Converters.xaml" />
-        <ResourceDictionary Source="/LWLCX.ModernUI;component/Assets/TextBlock.xaml" />
-        <ResourceDictionary Source="/Styles\ModernMenuStyle.xaml" />
+        <ResourceDictionary Source="/Styles/ModernMenuStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{x:Type controls:YourIconsWindow}"
@@ -136,7 +133,7 @@
                                                 DataContext="{TemplateBinding LogoData}"
                                                 Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=inverse}">
                                             <Path Data="{Binding}"
-                                                  Stretch="Fill"
+                                                  Stretch="Uniform"
                                                   Fill="White"
                                                   Width="24"
                                                   Height="24"

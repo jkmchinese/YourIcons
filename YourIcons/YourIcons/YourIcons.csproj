@@ -38,12 +38,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\LWLCX.ModernUI.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="MvvmValidation, Version=2.0.2.0, Culture=neutral, PublicKeyToken=113792d2053ac461, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\MvvmValidation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,6 +65,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\Icon.cs" />
     <Compile Include="Model\IconHelper.cs" />
+    <Compile Include="Model\ViewType.cs" />
     <Compile Include="ViewModel\BatchAddIconViewModel.cs" />
     <Compile Include="ViewModel\IconEntityViewModel.cs" />
     <Compile Include="ViewModel\NavViewModel.cs" />
@@ -79,6 +82,12 @@
     </Compile>
     <Compile Include="View\IconEntityWindow.xaml.cs">
       <DependentUpon>IconEntityWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\IconsListView.xaml.cs">
+      <DependentUpon>IconsListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\IconsTiteView.xaml.cs">
+      <DependentUpon>IconsTiteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\IconsView.xaml.cs">
       <DependentUpon>IconsView.xaml</DependentUpon>
@@ -109,6 +118,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles\IconsViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ModernMenuStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,6 +139,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\IconEntityWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\IconsListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\IconsTiteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

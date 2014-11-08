@@ -21,6 +21,7 @@ namespace YourIcons.ViewModel
         private Icon m_selectedIcon;
         private string m_searchStr;
         private IconEntityWindow m_eidtIconWindow;
+        private ViewType m_currentViewType;
 
         public Icon SelectedIcon
         {
@@ -36,6 +37,28 @@ namespace YourIcons.ViewModel
                     OnPropertyChanged(() => this.SelectedIcon);
                 }
             }
+        }
+
+        public ViewType CurrentViewType
+        {
+            get
+            {
+                return m_currentViewType;
+            }
+            set
+            {
+                if (m_currentViewType != value)
+                {
+                    m_currentViewType = value;
+                    OnCurrentViewTypeChanged();
+                    OnPropertyChanged(() => this.CurrentViewType);
+                }
+            }
+        }
+
+        private void OnCurrentViewTypeChanged()
+        {
+
         }
 
         public IList<Icon> IconList { get { return m_iconLists; } }
@@ -105,13 +128,16 @@ namespace YourIcons.ViewModel
         }
         #endregion
 
-
         void NavViewModelInstance_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SearchStr")
             {
                 m_searchStr = (sender as NavViewModel).SearchStr;
                 m_collectionView.Refresh();
+            }
+            else if (e.PropertyName == "SelectedViewType")
+            {
+                CurrentViewType = (sender as NavViewModel).SelectedViewType;
             }
         }
 
