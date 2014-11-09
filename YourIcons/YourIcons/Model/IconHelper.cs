@@ -169,9 +169,9 @@ namespace YourIcons.Model
                 new XAttribute("Width", icon.Width),
                 new XAttribute("Height", icon.Height),
                 new XAttribute("Data", icon.Data),
-                new XAttribute("Keyword", icon.Keyword),
+                new XAttribute("Keyword", icon.Keyword ?? string.Empty),
                 new XAttribute("CreatedDataTime", icon.CreatedDataTime.ToString("d")),
-                new XAttribute("ModifiedDataTime", icon.ModifiedDataTime.ToString("d")),
+                new XAttribute("ModifiedDataTime", icon.ModifiedDataTime == DateTime.MinValue ? string.Empty : icon.ModifiedDataTime.ToString("d")),
                 new XAttribute("IsFavourite", icon.IsFavourite)
                 );
             return xe;

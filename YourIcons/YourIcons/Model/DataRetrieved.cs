@@ -142,7 +142,13 @@ namespace YourIcons.Model
         /// <returns></returns>
         public bool BatchAddIcon(IEnumerable<Icon> iconList)
         {
-            var xList = IconList.Select(o =>
+            if (iconList == null)
+            {
+                Debug.WriteLine("BatchAddIcon:iconList is null");
+                return false;
+            }
+            var enumerable = iconList as IList<Icon> ?? iconList.ToList();
+            var xList = enumerable.Select(o =>
             {
                 if (ValidateIcon(o))
                 {
@@ -151,10 +157,11 @@ namespace YourIcons.Model
                 Debug.WriteLine("BatchAddIcon failed,Icon name is Duplicated:" + o.Name);
                 return null;
             }).ToList();
+
             bool result = SaveData(xList);
             if (result)
             {
-                foreach (var icon in iconList)
+                foreach (var icon in enumerable)
                 {
                     var newIcon = icon.Clone() as Icon;
                     m_iconLists.Add(newIcon);
