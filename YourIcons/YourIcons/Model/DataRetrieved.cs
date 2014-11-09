@@ -48,51 +48,117 @@ namespace YourIcons.Model
 
         public bool AddIcon(Icon icon)
         {
-            XElement x = GetElementFromIcon(icon);
+            if (!ValidateIcon(icon))
+            {
+                Debug.WriteLine("AddIcon failed,Icon name is Duplicated:" + icon.Name);
+                return false;
+            }
+
+            XElement x = IconHelper.GetElementFromIcon(icon);
             bool result = SaveData(x);
             if (result)
             {
-                m_iconLists.Add(icon.Clone() as Icon);
+                var newIcon = icon.Clone() as Icon;
+                m_iconLists.Add(newIcon);
+                OnIconAdded(newIcon);
             }
             return result;
+        }
+
+        private void OnIconAdded(Icon newIcon)
+        {
+            if (IconAdded != null)
+            {
+                IconAdded(this, new IconEventArgs(newIcon));
+            }
         }
 
         public bool ModifiedIcon(Icon icon)
         {
+            if (icon == null)
+            {
+                return false;
+            }
             var localIcon = m_iconLists.FirstOrDefault(o => o.Name == icon.Name);
             if (localIcon == null)
             {
                 return false;
             }
-            XElement x = GetElementFromIcon(icon);
-            return ModifiedData(x);
-        }
-
-        public bool DeleteIcon(Icon icon)
-        {
-            var localIcon = m_iconLists.FirstOrDefault(o => o.Name == icon.Name);
-            if (localIcon == null)
-            {
-                return false;
-            }
-            XElement x = GetElementFromIcon(icon);
-            bool result = DeleteData(x);
+            XElement x = IconHelper.GetElementFromIcon(icon);
+            bool result = ModifiedData(x);
             if (result)
             {
-                m_iconLists.Remove(localIcon);
+                IconHelper.ModifyIcon(localIcon, icon);
+                OnIconModified(localIcon);
             }
             return result;
         }
 
+        private void OnIconModified(Icon icon)
+        {
+            if (IconModified != null)
+            {
+                IconModified(this, new IconEventArgs(icon));
+            }
+        }
+
+        public bool DeleteIcon(Icon icon)
+        {
+            if (icon == null)
+            {
+                return false;
+            }
+            var localIcon = m_iconLists.FirstOrDefault(o => o.Name == icon.Name);
+            if (localIcon == null)
+            {
+                return false;
+            }
+            XElement x = IconHelper.GetElementFromIcon(icon);
+            bool result = DeleteData(x);
+            if (result)
+            {
+                m_iconLists.Remove(localIcon);
+                OnIconDeleted(localIcon);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="icon"></param>
+        private void OnIconDeleted(Icon icon)
+        {
+            if (IconDeleted != null)
+            {
+                IconDeleted(this, new IconEventArgs(icon));
+            }
+        }
+
+        /// <summary>
+        /// 批量新建图标
+        /// </summary>
+        /// <param name="iconList"></param>
+        /// <returns></returns>
         public bool BatchAddIcon(IEnumerable<Icon> iconList)
         {
-            var xList = IconList.Select(GetElementFromIcon).ToList();
+            var xList = IconList.Select(o =>
+            {
+                if (ValidateIcon(o))
+                {
+                    return IconHelper.GetElementFromIcon(o);
+                }
+                Debug.WriteLine("BatchAddIcon failed,Icon name is Duplicated:" + o.Name);
+                return null;
+            }).ToList();
             bool result = SaveData(xList);
             if (result)
             {
                 foreach (var icon in iconList)
                 {
-                    m_iconLists.Add(icon.Clone() as Icon);
+                    var newIcon = icon.Clone() as Icon;
+                    m_iconLists.Add(newIcon);
+                    OnIconAdded(newIcon);
                 }
             }
             return result;
@@ -104,7 +170,7 @@ namespace YourIcons.Model
             m_doc = XElement.Load(m_filePath);
             foreach (var xn in m_doc.Elements())
             {
-                var icon = GetIconFromElement(xn);
+                var icon = IconHelper.GetIconFromElement(xn);
                 if (icon != null)
                 {
                     m_iconLists.Add(icon);
@@ -138,7 +204,7 @@ namespace YourIcons.Model
                 var el = m_doc.Elements().FirstOrDefault(o => o.Attribute("Name").Value == element.Attribute("Name").Value);
                 if (el != null)
                 {
-                    ModifyIconElement(el, element);
+                    IconHelper.ModifyIconElement(el, element);
                 }
                 m_doc.Save(m_filePath);
                 return true;
@@ -169,22 +235,16 @@ namespace YourIcons.Model
             }
         }
 
-        private void ModifyIconElement(XElement target, XElement source)
-        {
-            target.Attribute("Name").Value = source.Attribute("Name").Value;
-            target.Attribute("Width").Value = source.Attribute("Width").Value;
-            target.Attribute("Height").Value = source.Attribute("Height").Value;
-            target.Attribute("Data").Value = source.Attribute("Data").Value;
-            target.Attribute("Keyword").Value = source.Attribute("Keyword").Value;
-        }
-
         private bool SaveData(IEnumerable<XElement> elements)
         {
             try
             {
                 foreach (var element in elements)
                 {
-                    m_doc.Add(element);
+                    if (element != null)
+                    {
+                        m_doc.Add(element);
+                    }
                 }
                 m_doc.Save(m_filePath);
                 return true;
@@ -196,37 +256,31 @@ namespace YourIcons.Model
             }
         }
 
-        public XElement GetElementFromIcon(Icon icon)
+        /// <summary>
+        /// 如果列表中存在同名的Icon 则返回False 反之则返回True
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
+        private bool ValidateIcon(Icon icon)
         {
-            var xe = new XElement("item",
-                new XAttribute("Name", icon.Name),
-                new XAttribute("Width", icon.Width),
-                new XAttribute("Height", icon.Height),
-                new XAttribute("Data", icon.Data),
-                new XAttribute("Keyword", icon.Keyword)
-                );
-            return xe;
+            return m_iconLists.All(o => o.Name != icon.Name);
         }
 
-        public Icon GetIconFromElement(XElement element)
+        public EventHandler<IconEventArgs> IconAdded;
+        public EventHandler<IconEventArgs> IconDeleted;
+        public EventHandler<IconEventArgs> IconModified;
+    }
+
+    /// <summary>
+    /// 图标事件参数
+    /// </summary>
+    public class IconEventArgs : EventArgs
+    {
+        public Icon Icon { get; set; }
+
+        public IconEventArgs(Icon icon)
         {
-            if (element == null ||
-                element.Attribute("Name") == null ||
-                element.Attribute("Data") == null ||
-                element.Attribute("Height") == null ||
-                element.Attribute("Width") == null)
-                return null;
-            var icon = new Icon();
-            icon.Name = element.Attribute("Name").Value;
-            icon.Width = Math.Round(double.Parse(element.Attribute("Width").Value));
-            icon.Height = Math.Round(double.Parse(element.Attribute("Height").Value));
-            icon.Data = element.Attribute("Data").Value;
-
-            if (element.Attribute("Keyword") != null)
-                icon.Keyword = element.Attribute("Keyword").Value;
-
-            return icon;
+            Icon = icon;
         }
-
     }
 }

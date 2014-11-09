@@ -16,7 +16,10 @@ namespace YourIcons.Model
                 Width = Width,
                 Height = Height,
                 Data = Data,
-                Keyword = Keyword
+                Keyword = Keyword,
+                CreatedDataTime = CreatedDataTime,
+                ModifiedDataTime = ModifiedDataTime,
+                IsFavourite = IsFavourite
             };
         }
     }

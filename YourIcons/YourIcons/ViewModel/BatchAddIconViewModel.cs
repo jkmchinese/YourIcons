@@ -22,6 +22,8 @@ namespace YourIcons.ViewModel
     {
         private BatchAddIconWindow m_window;
         private string m_filePath;
+        private ObservableCollection<Icon> m_importIcons = new ObservableCollection<Icon>();
+        private IList m_selectedItems;
 
         public BatchAddIconViewModel(BatchAddIconWindow window)
         {
@@ -37,7 +39,6 @@ namespace YourIcons.ViewModel
         public ICommand BrowseCmd { get; private set; }
         public ICommand DeleteSelectedCommand { get; private set; }
 
-
         public string FilePath
         {
             get { return m_filePath; }
@@ -50,11 +51,11 @@ namespace YourIcons.ViewModel
 
         private void SaveCmdExcute(object obj)
         {
-
+            DataRetrieved.Instance.BatchAddIcon(m_importIcons);
         }
+
         private void DeleteSelectedCmdExcute(object obj)
         {
-
             var list = SelectedItems.Cast<Icon>().ToList();
             foreach (var selectedItem in list)
             {
@@ -95,10 +96,6 @@ namespace YourIcons.ViewModel
             }
         }
 
-        private ObservableCollection<Icon> m_importIcons = new ObservableCollection<Icon>();
-        private IList m_selectedItems;
-
-
         public IList SelectedItems
         {
             get
@@ -121,11 +118,10 @@ namespace YourIcons.ViewModel
             try
             {
                 XElement doc = XElement.Load(m_filePath);
-                //RecursiveRead(doc);
                 IEnumerable<XElement> pathList = doc.Descendants("Path");
                 foreach (var xElement in pathList)
                 {
-                    var icon = DataRetrieved.Instance.GetIconFromElement(xElement);
+                    var icon = IconHelper.GetIconFromElement(xElement);
                     if (icon != null)
                     {
                         m_importIcons.Add(icon);
@@ -142,12 +138,9 @@ namespace YourIcons.ViewModel
             }
         }
 
-
-
         private void CancelCmdExcute(object obj)
         {
             m_window.Close();
         }
-
     }
 }

@@ -199,24 +199,18 @@ namespace YourIcons.ViewModel
                 //SaveIcon
                 if (m_isNew)
                 {
+                    icon.CreatedDataTime = DateTime.Now;
                     result = DataRetrieved.Instance.AddIcon(icon);
                 }
                 else
                 {
+                    icon.ModifiedDataTime = DateTime.Now;
                     result = DataRetrieved.Instance.ModifiedIcon(icon);
                 }
                 if (!result)
                 {
-                    ModernDialog.ShowMessage("Save Icon Failed.\r\nThe reason maybe you have not enought permition", "Operation Failed", MessageBoxButton.OK, m_window);
+                    ModernDialog.ShowMessage("Save Icon Failed.\r\nThe reason maybe you have not enought file write permition", "Operation Failed", MessageBoxButton.OK, m_window);
                     return;
-                }
-                if (!m_isNew)
-                {
-                    m_icon.Name = icon.Name;
-                    m_icon.Height = icon.Height;
-                    m_icon.Width = icon.Width;
-                    m_icon.Data = icon.Data;
-                    m_icon.Keyword = icon.Keyword;
                 }
                 m_window.Close();
             }

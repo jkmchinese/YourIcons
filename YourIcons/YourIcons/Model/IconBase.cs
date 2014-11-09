@@ -15,6 +15,9 @@ namespace YourIcons.Model
         private double m_height;
         private string m_keyword;
         private const double TOLERANCE = 0.001;
+        private DateTime m_createdDataTime;
+        private DateTime m_modifiedDataTime;
+        private bool m_isFavourite;
 
 
         public string Name
@@ -96,6 +99,51 @@ namespace YourIcons.Model
                 }
             }
 
+        }
+        public DateTime CreatedDataTime
+        {
+            get
+            {
+                return m_createdDataTime;
+            }
+            set
+            {
+                if (m_createdDataTime != value)
+                {
+                    m_createdDataTime = value;
+                    OnPropertyChanged(() => this.CreatedDataTime);
+                }
+            }
+        }
+        public DateTime ModifiedDataTime
+        {
+            get
+            {
+                return m_modifiedDataTime;
+            }
+            set
+            {
+                if (m_modifiedDataTime != value)
+                {
+                    m_modifiedDataTime = value;
+                    OnPropertyChanged(() => this.ModifiedDataTime);
+                }
+            }
+        }
+        public bool IsFavourite
+        {
+            get
+            {
+                return m_isFavourite;
+            }
+            set
+            {
+                if (m_isFavourite != value)
+                {
+                    m_isFavourite = value;
+                    OnPropertyChanged(() => this.IsFavourite);
+                }
+            }
         }
 
         #region ICloneable Members

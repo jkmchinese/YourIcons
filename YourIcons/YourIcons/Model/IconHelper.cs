@@ -17,6 +17,11 @@ namespace YourIcons.Model
 {
     public static class IconHelper
     {
+        /// <summary>
+        /// 复制Icon的Path到粘贴板
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
         public static bool CopyIconPath(Icon icon)
         {
             var xe = new XElement("Path",
@@ -38,6 +43,11 @@ namespace YourIcons.Model
             return true;
         }
 
+        /// <summary>
+        /// 复制Icon的PathData到粘贴板
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
         public static bool CopyIconPathData(Icon icon)
         {
             try
@@ -53,7 +63,7 @@ namespace YourIcons.Model
         }
 
         /// <summary>
-        /// 暂不提供
+        /// 复制Icon为Png到粘贴板
         /// </summary>
         /// <param name="icon"></param>
         /// <returns></returns>
@@ -85,6 +95,11 @@ namespace YourIcons.Model
             return true;
         }
 
+        /// <summary>
+        /// 通过Icon获取Canvas
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
         public static Canvas GetCanvas(Icon icon)
         {
             Canvas canvas = new Canvas();
@@ -111,6 +126,12 @@ namespace YourIcons.Model
             return canvas;
         }
 
+        /// <summary>
+        /// 保存Png文件
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static bool SavePng(Icon icon, string filename = "")
         {
             if (string.IsNullOrEmpty(filename))
@@ -136,7 +157,166 @@ namespace YourIcons.Model
             }
         }
 
-        public static void SaveCanvas(Canvas canvas, string filename)
+        /// <summary>
+        /// 通过Icon获取XElement
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
+        public static XElement GetElementFromIcon(Icon icon)
+        {
+            var xe = new XElement("item",
+                new XAttribute("Name", icon.Name),
+                new XAttribute("Width", icon.Width),
+                new XAttribute("Height", icon.Height),
+                new XAttribute("Data", icon.Data),
+                new XAttribute("Keyword", icon.Keyword),
+                new XAttribute("CreatedDataTime", icon.CreatedDataTime.ToString("d")),
+                new XAttribute("ModifiedDataTime", icon.ModifiedDataTime.ToString("d")),
+                new XAttribute("IsFavourite", icon.IsFavourite)
+                );
+            return xe;
+        }
+
+        /// <summary>
+        /// 通过XElement获取Icon
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static Icon GetIconFromElement(XElement element)
+        {
+            if (element == null ||
+                element.Attribute("Name") == null ||
+                element.Attribute("Data") == null ||
+                element.Attribute("Height") == null ||
+                element.Attribute("Width") == null)
+                return null;
+
+            var icon = new Icon();
+            icon.Name = element.Attribute("Name").Value;
+            icon.Width = Math.Round(double.Parse(element.Attribute("Width").Value));
+            icon.Height = Math.Round(double.Parse(element.Attribute("Height").Value));
+            icon.Data = element.Attribute("Data").Value;
+
+            if (element.Attribute("IsFavourite") != null)
+                icon.IsFavourite = bool.Parse(element.Attribute("IsFavourite").Value);
+
+            if (element.Attribute("CreatedDataTime") != null)
+            {
+                string cdt = element.Attribute("CreatedDataTime").Value;
+                if (!string.IsNullOrEmpty(cdt))
+                {
+                    DateTime createdDataTime;
+                    DateTime.TryParse(cdt, out createdDataTime);
+                    icon.CreatedDataTime = createdDataTime;
+                }
+            }
+
+            if (element.Attribute("ModifiedDataTime") != null)
+            {
+                string mdt = element.Attribute("ModifiedDataTime").Value;
+                if (!string.IsNullOrEmpty(mdt))
+                {
+                    DateTime modifiedDataTime;
+                    DateTime.TryParse(mdt, out modifiedDataTime);
+                    icon.ModifiedDataTime = modifiedDataTime;
+                }
+            }
+            if (element.Attribute("Keyword") != null)
+                icon.Keyword = element.Attribute("Keyword").Value;
+
+            return icon;
+        }
+
+        /// <summary>
+        /// 修改XElement
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="source"></param>
+        public static void ModifyIconElement(XElement target, XElement source)
+        {
+            if (target == null || source == null)
+            {
+                return;
+            }
+            if (target.Attribute("Name") != null && source.Attribute("Name") != null)
+            {
+                target.Attribute("Name").Value = source.Attribute("Name").Value;
+            }
+            if (target.Attribute("Width") != null && source.Attribute("Width") != null)
+            {
+                target.Attribute("Width").Value = source.Attribute("Width").Value;
+            }
+            if (target.Attribute("Height") != null && source.Attribute("Height") != null)
+            {
+                target.Attribute("Height").Value = source.Attribute("Height").Value;
+            }
+            if (target.Attribute("Data") != null && source.Attribute("Data") != null)
+            {
+                target.Attribute("Data").Value = source.Attribute("Data").Value;
+            }
+            if (target.Attribute("Keyword") != null && source.Attribute("Keyword") != null)
+            {
+                target.Attribute("Keyword").Value = source.Attribute("Keyword").Value;
+            }
+            if (target.Attribute("IsFavourite") != null && source.Attribute("IsFavourite") != null)
+            {
+                target.Attribute("IsFavourite").Value = source.Attribute("IsFavourite").Value;
+            }
+            if (target.Attribute("CreatedDateTime") != null && source.Attribute("CreatedDateTime") != null)
+            {
+                target.Attribute("CreatedDateTime").Value = source.Attribute("CreatedDateTime").Value;
+            }
+            if (target.Attribute("ModifiedDateTime") != null && source.Attribute("ModifiedDateTime") != null)
+            {
+                target.Attribute("ModifiedDateTime").Value = source.Attribute("ModifiedDateTime").Value;
+            }
+        }
+
+        /// <summary>
+        /// 修改XElement
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="source"></param>
+        public static void ModifyIcon(Icon target, Icon source)
+        {
+            if (target == null || source == null)
+            {
+                return;
+            }
+
+            target.Name = source.Name;
+            target.Width = source.Width;
+            target.Height = source.Height;
+            target.Keyword = source.Keyword;
+            target.CreatedDataTime = source.CreatedDataTime;
+            target.ModifiedDataTime = source.ModifiedDataTime;
+            target.IsFavourite = source.IsFavourite;
+        }
+
+        #region Private Method
+
+        /// <summary>
+        //  保存RTB到Png
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="filename"></param>
+        private static void SaveRTBAsPNG(RenderTargetBitmap bmp, string filename)
+        {
+            var enc = new System.Windows.Media.Imaging.PngBitmapEncoder();
+            enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bmp));
+
+            using (var stm = System.IO.File.Create(filename))
+            {
+                enc.Save(stm);
+            }
+        }
+
+        /// <summary>
+        /// 保存Canvas
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="filename"></param>
+        private static void SaveCanvas(Canvas canvas, string filename)
         {
             Size size = new Size(canvas.Width, canvas.Height);
             canvas.Measure(size);
@@ -154,15 +334,6 @@ namespace YourIcons.Model
             SaveRTBAsPNG(rtb, filename);
         }
 
-        private static void SaveRTBAsPNG(RenderTargetBitmap bmp, string filename)
-        {
-            var enc = new System.Windows.Media.Imaging.PngBitmapEncoder();
-            enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bmp));
-
-            using (var stm = System.IO.File.Create(filename))
-            {
-                enc.Save(stm);
-            }
-        }
+        #endregion
     }
 }
