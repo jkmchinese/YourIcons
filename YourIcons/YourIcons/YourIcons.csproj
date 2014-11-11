@@ -69,6 +69,7 @@
     <Compile Include="ViewModel\BatchAddIconViewModel.cs" />
     <Compile Include="ViewModel\IconEntityViewModel.cs" />
     <Compile Include="ViewModel\NavViewModel.cs" />
+    <Compile Include="ViewModel\UpdatesViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Model\DataRetrieved.cs" />
     <Compile Include="Model\IconBase.cs" />

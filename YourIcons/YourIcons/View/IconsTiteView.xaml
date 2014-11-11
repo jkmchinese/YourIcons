@@ -8,15 +8,19 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid>
-        <Path Width="128"
-              Height="128"
-              Stretch="Uniform"
-              Data="{Binding SelectedIcon.Data}"
-              Margin="2"
-              Fill="{StaticResource WindowText}"
-              Opacity=".3"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center"></Path>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Opacity=".2">
+            <Path Width="256"
+                  Height="256"
+                  Stretch="Uniform"
+                  Data="{Binding SelectedIcon.Data}"
+                  Margin="2"
+                  Fill="{StaticResource WindowText}"></Path>
+            <TextBlock Text="{Binding SelectedIcon.Name}"
+                       FontSize="32"
+                       HorizontalAlignment="Center"></TextBlock>
+        </StackPanel>
         <ListBox ItemContainerStyle="{StaticResource Style}"
                  Background="Transparent"
                  ItemsSource="{Binding IconList}"
@@ -27,7 +31,8 @@
                 <ItemsPanelTemplate>
                     <mui:VirtualizingWrapPanel ItemHeight="64"
                                                ItemWidth="64"
-                                               Orientation="Horizontal"></mui:VirtualizingWrapPanel>
+                                               Orientation="Horizontal"
+                                               ScrollStep="64"></mui:VirtualizingWrapPanel>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>

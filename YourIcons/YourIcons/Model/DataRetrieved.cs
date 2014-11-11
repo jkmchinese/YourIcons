@@ -147,21 +147,15 @@ namespace YourIcons.Model
                 Debug.WriteLine("BatchAddIcon:iconList is null");
                 return false;
             }
-            var enumerable = iconList as IList<Icon> ?? iconList.ToList();
-            var xList = enumerable.Select(o =>
-            {
-                if (ValidateIcon(o))
-                {
-                    return IconHelper.GetElementFromIcon(o);
-                }
-                Debug.WriteLine("BatchAddIcon failed,Icon name is Duplicated:" + o.Name);
-                return null;
-            }).ToList();
-
+            var enumerable = iconList.Where(ValidateIcon);
+            var icons = enumerable as IList<Icon> ?? enumerable.ToList();
+            
+            var xList = icons.Select(IconHelper.GetElementFromIcon).ToList();
             bool result = SaveData(xList);
+
             if (result)
             {
-                foreach (var icon in enumerable)
+                foreach (var icon in icons)
                 {
                     var newIcon = icon.Clone() as Icon;
                     m_iconLists.Add(newIcon);
@@ -273,9 +267,9 @@ namespace YourIcons.Model
             return m_iconLists.All(o => o.Name != icon.Name);
         }
 
-        public EventHandler<IconEventArgs> IconAdded;
-        public EventHandler<IconEventArgs> IconDeleted;
-        public EventHandler<IconEventArgs> IconModified;
+        public event EventHandler<IconEventArgs> IconAdded;
+        public event EventHandler<IconEventArgs> IconDeleted;
+        public event EventHandler<IconEventArgs> IconModified;
     }
 
     /// <summary>

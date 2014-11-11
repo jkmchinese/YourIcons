@@ -8,13 +8,13 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid>
-        <Path Width="128"
-              Height="128"
+        <Path Width="256"
+              Height="256"
               Stretch="Uniform"
               Data="{Binding SelectedIcon.Data}"
               Margin="2"
               Fill="{DynamicResource WindowText}"
-              Opacity=".3"
+              Opacity=".2"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"></Path>
 

@@ -89,9 +89,9 @@
                    VerticalAlignment="Bottom"
                    Text="{Binding IconList.Count}"
                    x:Name="CountTextBlock"
-                   Margin="20 1"
+                   Margin="20"
                    Opacity=".1"
-                   FontSize="32"></TextBlock>
+                   FontSize="64"></TextBlock>
         <view:IconsTiteView x:Name="IconsTiteView" />
         <view:IconsListView x:Name="IconsListView" />
     </Grid>

@@ -3,10 +3,108 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mui="http://lwlcx.com.cn/ModernUI"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid>
-        <TextBlock Text="UpdatesView"></TextBlock>
+        <Path Width="256"
+              Height="256"
+              Stretch="Uniform"
+              Data="{Binding SelectedIcon.Data}"
+              Margin="2"
+              Fill="{DynamicResource WindowText}"
+              Opacity=".2"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"></Path>
+
+        <DataGrid Name="IconsDataGrid"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding UpdateIconsList}"
+                  CanUserAddRows="false"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectedItem="{Binding SelectedIcon}"
+                  SelectionMode="Single"
+                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                  VirtualizingPanel.ScrollUnit="Item"
+                  VirtualizingPanel.VirtualizationMode="Recycling">
+            <DataGrid.Resources>
+                <ToolTip x:Key="IconToolTip"
+                         x:Shared="True">
+                    <Path Width="48"
+                          Height="48"
+                          Stretch="Uniform"
+                          Data="{Binding Data}"
+                          Margin="2"
+                          Fill="{DynamicResource WindowText}"></Path>
+                </ToolTip>
+                <Style TargetType="{x:Type DataGridCell}"
+                       BasedOn="{StaticResource {x:Type DataGridCell}}">
+                    <Setter Property="ContextMenu"
+                            Value="{DynamicResource ContextMenu}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander>
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Created In "
+                                                               FontWeight="Bold"
+                                                               FontSize="16"
+                                                               Margin="2"
+                                                               Foreground="{StaticResource WindowText}" />
+                                                    <TextBlock Text="{Binding Items[0].CreatedDataTime, StringFormat='yyyy-MM-dd'}"
+                                                               FontWeight="Bold"
+                                                               FontSize="16"
+                                                               Margin="2"
+                                                               Foreground="{StaticResource WindowText}" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Icon"
+                                        Width="140">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid Background="#01FFFFFF"
+                                  ToolTip="{StaticResource IconToolTip}">
+                                <Path Width="24"
+                                      Height="24"
+                                      Stretch="Uniform"
+                                      Data="{Binding Data}"
+                                      Fill="{DynamicResource WindowText}"></Path>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <mui:DataGridTextColumn Header="Name"
+                                        Width="207"
+                                        Binding="{Binding Name}" />
+                <mui:DataGridTextColumn Header="Width"
+                                        Width="80"
+                                        Binding="{Binding Width}" />
+                <mui:DataGridTextColumn Header="Height"
+                                        Width="80"
+                                        Binding="{Binding Height}" />
+                <mui:DataGridTextColumn Header="Keyword"
+                                        Width="250"
+                                        Binding="{Binding Keyword}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

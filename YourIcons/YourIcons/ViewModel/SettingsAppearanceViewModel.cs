@@ -55,7 +55,7 @@ namespace YourIcons.ViewModel
             Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
         };
 
-        private string selectedPalette = PaletteWP;
+        private string selectedPalette;
 
         private Color selectedAccentColor;
         private LinkCollection themes = new LinkCollection();
@@ -64,15 +64,17 @@ namespace YourIcons.ViewModel
 
         public SettingsAppearanceViewModel()
         {
+            selectedPalette = YourIcons.Properties.Settings.Default.Palette;
+
             // add the default themes
             this.themes.Add(new Link { DisplayName = "dark", Source = AppearanceManager.DarkThemeSource });
             this.themes.Add(new Link { DisplayName = "light", Source = AppearanceManager.LightThemeSource });
 
             // add additional themes
-            this.themes.Add(new Link { DisplayName = "bing image", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.BingImage.xaml", UriKind.Relative) });
-            this.themes.Add(new Link { DisplayName = "hello kitty", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.HelloKitty.xaml", UriKind.Relative) });
-            this.themes.Add(new Link { DisplayName = "love", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Love.xaml", UriKind.Relative) });
-            this.themes.Add(new Link { DisplayName = "snowflakes", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Snowflakes.xaml", UriKind.Relative) });
+            //this.themes.Add(new Link { DisplayName = "bing image", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.BingImage.xaml", UriKind.Relative) });
+            //this.themes.Add(new Link { DisplayName = "hello kitty", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.HelloKitty.xaml", UriKind.Relative) });
+            //this.themes.Add(new Link { DisplayName = "love", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Love.xaml", UriKind.Relative) });
+            //this.themes.Add(new Link { DisplayName = "snowflakes", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Snowflakes.xaml", UriKind.Relative) });
 
             this.SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
             SyncThemeAndColor();
@@ -126,7 +128,8 @@ namespace YourIcons.ViewModel
                 {
                     this.selectedPalette = value;
                     OnPropertyChanged("AccentColors");
-
+                    YourIcons.Properties.Settings.Default.Palette = this.selectedPalette;
+                    YourIcons.Properties.Settings.Default.Save();
                     this.SelectedAccentColor = this.AccentColors.FirstOrDefault();
                 }
             }
@@ -142,6 +145,8 @@ namespace YourIcons.ViewModel
                     this.selectedTheme = value;
                     OnPropertyChanged("SelectedTheme");
 
+                    YourIcons.Properties.Settings.Default.Theme = this.selectedTheme.Source;
+                    YourIcons.Properties.Settings.Default.Save();
                     // and update the actual theme
                     AppearanceManager.Current.ThemeSource = value.Source;
                 }
@@ -158,6 +163,8 @@ namespace YourIcons.ViewModel
                     this.selectedFontSize = value;
                     OnPropertyChanged("SelectedFontSize");
 
+                    YourIcons.Properties.Settings.Default.FontSize = this.selectedFontSize;
+                    YourIcons.Properties.Settings.Default.Save();
                     AppearanceManager.Current.FontSize = value == FontLarge ? FontSize.Large : FontSize.Small;
                 }
             }
@@ -173,6 +180,8 @@ namespace YourIcons.ViewModel
                     this.selectedAccentColor = value;
                     OnPropertyChanged("SelectedAccentColor");
 
+                    YourIcons.Properties.Settings.Default.AccentColor = this.selectedAccentColor;
+                    YourIcons.Properties.Settings.Default.Save();
                     AppearanceManager.Current.AccentColor = value;
                 }
             }
