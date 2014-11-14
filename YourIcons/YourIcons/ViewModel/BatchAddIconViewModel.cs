@@ -51,7 +51,12 @@ namespace YourIcons.ViewModel
 
         private void SaveCmdExcute(object obj)
         {
-            DataRetrieved.Instance.BatchAddIcon(m_importIcons);
+            if (!DataRetrieved.Instance.BatchAddIcon(m_importIcons))
+            {
+                ModernDialog.ShowMessage("BatchAddIcon occur some error,Some Icons has not import successfully.\r\nFor more information,please read the log.",
+                    "Warning", MessageBoxButton.OK);
+            }
+            m_window.Close();
         }
 
         private void DeleteSelectedCmdExcute(object obj)
