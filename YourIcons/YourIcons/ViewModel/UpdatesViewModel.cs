@@ -4,8 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
+using ModernUI.Presentation;
+using ModernUI.Windows.Controls;
 using YourIcons.Model;
+using YourIcons.View;
 
 namespace YourIcons.ViewModel
 {
@@ -15,6 +20,7 @@ namespace YourIcons.ViewModel
         private IList<Icon> m_updateIconsList;
         private Icon m_selectedIcon;
         private Icon m_firstIcon;
+        private IconEntityWindow m_eidtIconWindow;
 
         public Icon SelectedIcon
         {
@@ -45,7 +51,56 @@ namespace YourIcons.ViewModel
             m_collectionView.GroupDescriptions.Add(new PropertyGroupDescription("CreatedDateTime"));
             DataRetrieved.Instance.IconAdded += Instance_IconAdded;
             DataRetrieved.Instance.IconDeleted += Instance_IconDeleted;
+            CopyPathCmd = new RelayCommand(CopyPathCmdExcute);
+            CopyPathDataCmd = new RelayCommand(CopyPathDataCmdExcute);
+            EditCmd = new RelayCommand(EditCmdExcute);
+            ExportCmd = new RelayCommand(ExportCmdExcute);
+            DeleteCmd = new RelayCommand(DeleteCmdExcute);
+            FavouriteCmd = new RelayCommand(FavouriteCmdExcute);
+        }
 
+        public ICommand CopyPathCmd { get; set; }
+        public ICommand CopyPathDataCmd { get; set; }
+        public ICommand EditCmd { get; set; }
+        public ICommand ExportCmd { get; set; }
+        public ICommand DeleteCmd { get; set; }
+        public ICommand FavouriteCmd { get; set; }
+
+        private void CopyPathCmdExcute(object obj)
+        {
+            IconHelper.CopyIconPath(m_selectedIcon);
+        }
+
+        private void CopyPathDataCmdExcute(object obj)
+        {
+            IconHelper.CopyIconPathData(m_selectedIcon);
+        }
+
+        private void EditCmdExcute(object obj)
+        {
+            m_eidtIconWindow = new IconEntityWindow();
+            m_eidtIconWindow.DataContext = new IconEntityViewModel(m_selectedIcon, m_eidtIconWindow);
+            m_eidtIconWindow.Owner = Application.Current.MainWindow;
+            //}
+            m_eidtIconWindow.ShowDialog();
+        }
+
+        private void ExportCmdExcute(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DeleteCmdExcute(object obj)
+        {
+            var result = ModernDialog.ShowMessage("Really to delete the Icon", "Operation Confirm", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+                DataRetrieved.Instance.DeleteIcon(m_selectedIcon);
+        }
+
+        private void FavouriteCmdExcute(object obj)
+        {
+            DataRetrieved.Instance.FavoriteIcon(m_selectedIcon);
         }
 
         void Instance_IconDeleted(object sender, IconEventArgs e)

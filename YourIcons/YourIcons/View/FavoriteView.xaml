@@ -3,11 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mui="http://lwlcx.com.cn/ModernUI"
              mc:Ignorable="d"
              d:DesignHeight="300"
-             d:DesignWidth="300">
+             d:DesignWidth="300"
+             mui:ModernFrame.KeepAlive="True">
     <Grid>
-        <TextBlock Text="FavoritesView"></TextBlock>
+        <Grid>
+            <ListBox ItemContainerStyle="{StaticResource FavotiteViewListBoxStyle}"
+                     Background="Transparent"
+                     ItemsSource="{Binding IconList}"
+                     x:Name="IconsListBox"
+                     SelectedIndex="0"
+                     SelectedItem="{Binding SelectedIcon}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <mui:VirtualizingWrapPanel ItemHeight="64"
+                                                   ItemWidth="64"
+                                                   Orientation="Horizontal"
+                                                   ScrollStep="64"></mui:VirtualizingWrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Opacity=".2"
+                        IsHitTestVisible="False">
+                <Path Width="256"
+                      Height="256"
+                      Stretch="Uniform"
+                      Data="{Binding SelectedIcon.Data}"
+                      Margin="2"
+                      Fill="{DynamicResource WindowText}"></Path>
+                <TextBlock Text="{Binding SelectedIcon.Name}"
+                           FontSize="32"
+                           HorizontalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </Grid>
 
     </Grid>
 </UserControl>

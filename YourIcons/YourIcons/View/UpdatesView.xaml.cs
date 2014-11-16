@@ -23,8 +23,8 @@ namespace YourIcons.View
     {
         public UpdatesView()
         {
-            this.DataContext = new UpdatesViewModel();
             InitializeComponent();
+            this.DataContext = new UpdatesViewModel();
         }
     }
 }

@@ -30,8 +30,8 @@
                           Source="/View/UpdatesView.xaml" />
                 <mui:Link DisplayName="Favorites"
                           Source="/View/FavoriteView.xaml" />
-                <mui:Link DisplayName="RecycleBin"
-                          Source="/View/FavoriteView.xaml" />
+                <!--<mui:Link DisplayName="RecycleBin"
+                          Source="/View/FavoriteView.xaml" />-->
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
 

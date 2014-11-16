@@ -24,6 +24,7 @@ namespace YourIcons.ViewModel
         private string m_filePath;
         private ObservableCollection<Icon> m_importIcons = new ObservableCollection<Icon>();
         private IList m_selectedItems;
+        private Icon m_selectedIcon;
 
         public BatchAddIconViewModel(BatchAddIconWindow window)
         {
@@ -38,6 +39,22 @@ namespace YourIcons.ViewModel
         public ICommand CancelCommand { get; private set; }
         public ICommand BrowseCmd { get; private set; }
         public ICommand DeleteSelectedCommand { get; private set; }
+
+        public Icon SelectedIcon
+        {
+            get
+            {
+                return m_selectedIcon;
+            }
+            set
+            {
+                if (m_selectedIcon != value)
+                {
+                    m_selectedIcon = value;
+                    OnPropertyChanged(() => this.SelectedIcon);
+                }
+            }
+        }
 
         public string FilePath
         {

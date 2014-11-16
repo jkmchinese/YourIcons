@@ -14,35 +14,44 @@
             <StackPanel.Resources>
                 <PathGeometry x:Key="AddIconData">F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z</PathGeometry>
                 <PathGeometry x:Key="BatchAddIconData">F1 M 39,46L 46,46L 46,39L 51,39L 51,46L 58,46L 58,51L 51,51L 51,58L 46,58L 46,51L 39,51L 39,46 Z M 31,25L 38,25L 38,18L 43,18L 43,25L 50,25L 50,30L 43,30L 43,37L 38,37L 38,30L 31,30L 31,25 Z M 18,39L 25,39L 25,32L 30,32L 30,39L 37,39L 37,44L 30,44L 30,51L 25,51L 25,44L 18,44L 18,39 Z</PathGeometry>
+                <PathGeometry x:Key="TitleData">F1 M 19,19L 36,19L 36,36L 19,36L 19,19 Z M 19,40L 36,40L 36,57L 19,57L 19,40 Z M 40,57L 40,40L 57,40L 57,57L 40,57 Z M 40,36L 40,19L 57,19L 57,36L 40,36 Z</PathGeometry>
+                <PathGeometry x:Key="ListData">F1 M 19,23L 27,23L 27,31L 19,31L 19,23 Z M 19,34L 27,34L 27,42L 19,42L 19,34 Z M 31,23L 57,23L 57,31L 31,31L 31,23 Z M 19,45L 27,45L 27,53L 19,53L 19,45 Z M 31,34L 57,34L 57,42L 31,42L 31,34 Z M 31,45L 57,45L 57,53L 31,53L 31,45 Z</PathGeometry>
+
+
             </StackPanel.Resources>
             <!--<TextBlock Text="Input Keywords："
                        VerticalAlignment="Center"></TextBlock>-->
-            <RadioButton Content="Tile"
-                         Command="{Binding ChangeViewTypeCmd}"
-                         CommandParameter="Tile"
-                         IsChecked="True"></RadioButton>
-            <RadioButton Content="List"
-                         Command="{Binding ChangeViewTypeCmd}"
-                         CommandParameter="List"
-                         Margin="2 0"></RadioButton>
-            <TextBox Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
-                     Width="128"
-                     VerticalAlignment="Center"
-                     HorizontalAlignment="Left"></TextBox>
             <StackPanel Orientation="Horizontal"
-                        Margin="5 0 0 0">
-                <mui:ModernButton EllipseDiameter="32"
-                                  IconWidth="20"
-                                  IconHeight="20"
+                        x:Name="IconsViewStackPanel">
+                <RadioButton Content="{StaticResource TitleData}"
+                             Style="{StaticResource ViewTypeRadioButtonStyle}"
+                             Command="{Binding ChangeViewTypeCmd}"
+                             CommandParameter="Tile"
+                             IsChecked="True"></RadioButton>
+                <RadioButton Content="{StaticResource ListData}"
+                             Command="{Binding ChangeViewTypeCmd}"
+                             Style="{StaticResource ViewTypeRadioButtonStyle}"
+                             CommandParameter="List"
+                             Margin="2 0"></RadioButton>
+                <TextBox Text="{Binding SearchStr, UpdateSourceTrigger=PropertyChanged}"
+                         Width="128"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Left"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="5 0 0 0"
+                        VerticalAlignment="Center">
+                <mui:ModernButton EllipseDiameter="24"
+                                  IconWidth="16"
+                                  IconHeight="16"
                                   IconData="{StaticResource AddIconData}"
                                   Command="{Binding AddIconCmd}"
                                   ToolTip="添加图标" />
-                <mui:ModernButton EllipseDiameter="32"
-                                  IconWidth="20"
-                                  IconHeight="20"
+                <mui:ModernButton EllipseDiameter="24"
+                                  IconWidth="16"
+                                  IconHeight="16"
                                   IconData="{StaticResource BatchAddIconData}"
                                   Command="{Binding BatchAddIconCmd}"
-                                  Margin="5 0 0 0"
                                   ToolTip="批量添加图标" />
             </StackPanel>
         </StackPanel>

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ModernUI.Windows.Controls;
+using YourIcons.Converters;
 using YourIcons.ViewModel;
 
 namespace YourIcons.View
@@ -25,6 +27,11 @@ namespace YourIcons.View
         {
             InitializeComponent();
             this.DataContext = ViewModelRetrived.Instance.NavViewModelInstance;
+            var mainWin = Application.Current.MainWindow as ModernWindow;
+            var enableBinding = new Binding("ContentSource");
+            enableBinding.Source = mainWin;
+            enableBinding.Converter = new NavSearchIsEnableConverter();
+            this.IconsViewStackPanel.SetBinding(UIElement.IsEnabledProperty, enableBinding);
         }
     }
 }

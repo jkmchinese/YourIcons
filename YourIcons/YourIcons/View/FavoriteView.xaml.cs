@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YourIcons.ViewModel;
 
 namespace YourIcons.View
 {
@@ -22,6 +23,7 @@ namespace YourIcons.View
     {
         public FavoriteView()
         {
+            this.DataContext = new FavoriteViewModel();
             InitializeComponent();
         }
     }

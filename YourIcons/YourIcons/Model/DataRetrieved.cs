@@ -5,16 +5,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using LWLCX.Framework.Common.Logger;
 
 namespace YourIcons.Model
 {
     public class DataRetrieved
     {
+        private const string APPDATA = @"App_Data";
+        private const string FILEEXTEND = ".xml";
         private static object _locker = new object();
         private static DataRetrieved _instance;
         private readonly IList<Icon> m_iconLists;
-        private XElement m_doc;
-        private string m_filePath;
+        private IDictionary<XElement, string> m_doc_file;
         public static DataRetrieved Instance
         {
             get
@@ -34,13 +36,14 @@ namespace YourIcons.Model
         private DataRetrieved()
         {
             m_iconLists = new ObservableCollection<Icon>();
+            m_doc_file = new Dictionary<XElement, string>();
             try
             {
                 LoadData();
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Error("DataRetrieved LoadData occur exception:\r\n" + ex);
             }
         }
 
@@ -48,21 +51,75 @@ namespace YourIcons.Model
 
         public bool AddIcon(Icon icon)
         {
+            LoggingService.Debug("start to addIcon");
             if (!ValidateIcon(icon))
             {
-                Debug.WriteLine("AddIcon failed,Icon name is Duplicated:" + icon.Name);
+                LoggingService.Warn("addIcon failed, Icon name is Duplicated:" + icon.Name);
                 return false;
             }
 
-            XElement x = IconHelper.GetElementFromIcon(icon);
-            bool result = SaveData(x);
+            var addElement = IconHelper.GetElementFromIcon(icon);
+            var saveElement = GetSaveElement(icon);
+            bool result = SaveData(saveElement, addElement);
             if (result)
             {
                 var newIcon = icon.Clone() as Icon;
                 m_iconLists.Add(newIcon);
                 OnIconAdded(newIcon);
             }
+            LoggingService.Debug("end to addIcon,result:" + result);
             return result;
+        }
+
+        public bool FavoriteIcon(Icon icon)
+        {
+            if (icon.IsFavourite)
+            {
+                return true;
+            }
+            LoggingService.Debug("start to FavoriteIcon:" + icon.Name);
+            icon.IsFavourite = true;
+            var result = ModifiedIcon(icon);
+            LoggingService.Debug("end to FavoriteIcon,result:" + result);
+            return result;
+        }
+
+        public bool UnFavoriteIcon(Icon icon)
+        {
+            if (!icon.IsFavourite)
+            {
+                return true;
+            }
+            LoggingService.Debug("start to UnFavoriteIcon:" + icon.Name);
+            icon.IsFavourite = false;
+            var result = ModifiedIcon(icon);
+            LoggingService.Debug("end to UnFavoriteIcon,result:" + result);
+            return true;
+        }
+
+        private XElement GetSaveElement(Icon icon, bool isExit = false)
+        {
+            string dateTime = icon.CreatedDataTime.ToString(IconHelper.DateTimeStringShortFormat);
+
+            foreach (KeyValuePair<XElement, string> keyValuePair in m_doc_file)
+            {
+                if (keyValuePair.Value.Contains(dateTime))
+                {
+                    return keyValuePair.Key;
+                }
+            }
+
+            if (isExit)
+            {
+                return m_doc_file.FirstOrDefault().Key;
+            }
+
+            //不存在 则新建
+            var newXElement = new XElement("root");
+            string filePath = Path.Combine(Environment.CurrentDirectory, @"App_Data\Data_" + dateTime + FILEEXTEND);
+            newXElement.Save(filePath);
+            m_doc_file.Add(newXElement, Path.GetFileName(filePath));
+            return newXElement;
         }
 
         private void OnIconAdded(Icon newIcon)
@@ -75,22 +132,27 @@ namespace YourIcons.Model
 
         public bool ModifiedIcon(Icon icon)
         {
+            LoggingService.Debug("start to modifiedIcon");
             if (icon == null)
             {
+                LoggingService.Warn("ModifiedIcon:icon is null");
                 return false;
             }
             var localIcon = m_iconLists.FirstOrDefault(o => o.Name == icon.Name);
             if (localIcon == null)
             {
+                LoggingService.Warn("ModifiedIcon:could not find the icon to modify");
                 return false;
             }
             XElement x = IconHelper.GetElementFromIcon(icon);
-            bool result = ModifiedData(x);
+            var saveElement = GetSaveElement(icon, true);
+            bool result = ModifiedData(saveElement, x);
             if (result)
             {
                 IconHelper.ModifyIcon(localIcon, icon);
                 OnIconModified(localIcon);
             }
+            LoggingService.Debug("end to modifiedIcon,result:" + result);
             return result;
         }
 
@@ -104,22 +166,27 @@ namespace YourIcons.Model
 
         public bool DeleteIcon(Icon icon)
         {
+            LoggingService.Debug("start to deleteIcon");
             if (icon == null)
             {
+                LoggingService.Warn("DeleteIcon:icon is null");
                 return false;
             }
             var localIcon = m_iconLists.FirstOrDefault(o => o.Name == icon.Name);
             if (localIcon == null)
             {
+                LoggingService.Warn("DeleteIcon:could note find the icon to delete");
                 return false;
             }
-            XElement x = IconHelper.GetElementFromIcon(icon);
-            bool result = DeleteData(x);
+            var deleteElement = IconHelper.GetElementFromIcon(icon);
+            var saveElement = GetSaveElement(icon, true);
+            bool result = DeleteData(saveElement, deleteElement);
             if (result)
             {
                 m_iconLists.Remove(localIcon);
                 OnIconDeleted(localIcon);
             }
+            LoggingService.Debug("end to deleteIcon,result:" + result);
             return result;
         }
 
@@ -142,16 +209,33 @@ namespace YourIcons.Model
         /// <returns></returns>
         public bool BatchAddIcon(IEnumerable<Icon> iconList)
         {
+            LoggingService.Debug("start to batchAddIcon");
             if (iconList == null)
             {
-                Debug.WriteLine("BatchAddIcon:iconList is null");
+                LoggingService.Warn("batchAddIcon:iconList is null");
                 return false;
             }
-            var enumerable = iconList.Where(ValidateIcon);
-            var icons = enumerable as IList<Icon> ?? enumerable.ToList();
-            
-            var xList = icons.Select(IconHelper.GetElementFromIcon).ToList();
-            bool result = SaveData(xList);
+            var icons = new List<Icon>();
+            foreach (Icon icon in iconList)
+            {
+                if (ValidateIcon(icon))
+                {
+                    icons.Add(icon);
+                }
+                else
+                {
+                    LoggingService.Warn("BatchAddIcon:ValidateIcon failed:name=" + icon.Name);
+                }
+            }
+            if (icons.Count <= 0)
+            {
+                LoggingService.Warn("batchAddIcon:iconList is empty");
+                return false;
+            }
+
+            var addElementList = icons.Select(IconHelper.GetElementFromIcon).ToList();
+            var saveElement = GetSaveElement(icons.FirstOrDefault());
+            bool result = SaveData(saveElement, addElementList);
 
             if (result)
             {
@@ -162,81 +246,105 @@ namespace YourIcons.Model
                     OnIconAdded(newIcon);
                 }
             }
+            LoggingService.Debug("end to batchAddIcon,result:" + result);
             return result;
         }
 
         private void LoadData()
         {
-            m_filePath = Path.Combine(System.Environment.CurrentDirectory, @"App_Data\Data.xml");
-            m_doc = XElement.Load(m_filePath);
-            foreach (var xn in m_doc.Elements())
+            LoggingService.Info("start to load icons.");
+            string path = Path.Combine(System.Environment.CurrentDirectory, APPDATA);
+            foreach (var file in Directory.GetFiles(path))
+            {
+                if (Path.GetExtension(file) == FILEEXTEND)
+                {
+                    LoadFile(file);
+                }
+            }
+            LoggingService.Info("end to load icons.icons count:" + m_iconLists.Count);
+        }
+
+        private void LoadFile(string file)
+        {
+            int count = 0;
+            var doc = XElement.Load(file);
+            foreach (var xn in doc.Elements())
             {
                 var icon = IconHelper.GetIconFromElement(xn);
                 if (icon != null)
                 {
+                    count++;
                     m_iconLists.Add(icon);
                 }
                 else
                 {
-                    Debug.WriteLine("LoadData has icon error:" + xn);
+                    LoggingService.Warn("LoadFile has icon error:file" + file +
+                        "element:" + xn);
                 }
             }
+            LoggingService.Debug("loaded file:" + file + ",add icons:" + count);
+            m_doc_file.Add(doc, Path.GetFileName(file));
         }
 
-        private bool SaveData(XElement element)
+        private string GetFilePath(XElement doc)
+        {
+            return Path.Combine(Environment.CurrentDirectory, APPDATA, m_doc_file[doc]);
+        }
+
+        private bool SaveData(XElement doc, XElement element)
         {
             try
             {
-                m_doc.Add(element);
-                m_doc.Save(m_filePath);
+                doc.Add(element);
+                doc.Save(GetFilePath(doc));
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Fatal("SaveData(single) has occur exception:" + ex);
                 return false;
             }
         }
 
-        private bool ModifiedData(XElement element)
+        private bool ModifiedData(XElement doc, XElement element)
         {
             try
             {
-                var el = m_doc.Elements().FirstOrDefault(o => o.Attribute("Name").Value == element.Attribute("Name").Value);
+                var el = doc.Elements().FirstOrDefault(o => o.Attribute("Name").Value == element.Attribute("Name").Value);
                 if (el != null)
                 {
                     IconHelper.ModifyIconElement(el, element);
                 }
-                m_doc.Save(m_filePath);
+                doc.Save(GetFilePath(doc));
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Fatal("ModifiedData has occur exception:" + ex);
                 return false;
             }
         }
 
-        private bool DeleteData(XElement element)
+        private bool DeleteData(XElement doc, XElement element)
         {
             try
             {
-                var el = m_doc.Elements().FirstOrDefault(o => o.Attribute("Name").Value == element.Attribute("Name").Value);
+                var el = doc.Elements().FirstOrDefault(o => o.Attribute("Name").Value == element.Attribute("Name").Value);
                 if (el != null)
                 {
                     el.Remove();
                 }
-                m_doc.Save(m_filePath);
+                doc.Save(GetFilePath(doc));
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Fatal("DeleteData has occur exception:" + ex);
                 return false;
             }
         }
 
-        private bool SaveData(IEnumerable<XElement> elements)
+        private bool SaveData(XElement doc, IEnumerable<XElement> elements)
         {
             try
             {
@@ -244,15 +352,15 @@ namespace YourIcons.Model
                 {
                     if (element != null)
                     {
-                        m_doc.Add(element);
+                        doc.Add(element);
                     }
                 }
-                m_doc.Save(m_filePath);
+                doc.Save(GetFilePath(doc));
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Fatal("SaveData(multi) has occur exception:" + ex);
                 return false;
             }
         }
@@ -265,6 +373,15 @@ namespace YourIcons.Model
         private bool ValidateIcon(Icon icon)
         {
             return m_iconLists.All(o => o.Name != icon.Name);
+        }
+
+        public bool ValidateIconName(string iconName)
+        {
+            if (string.IsNullOrEmpty(iconName))
+            {
+                return false;
+            }
+            return m_iconLists.All(o => o.Name != iconName);
         }
 
         public event EventHandler<IconEventArgs> IconAdded;

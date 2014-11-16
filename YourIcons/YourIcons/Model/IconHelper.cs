@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using LWLCX.Framework.Common.Logger;
 using ModernUI.Presentation;
 using Path = System.Windows.Shapes.Path;
 
@@ -18,29 +19,34 @@ namespace YourIcons.Model
     public static class IconHelper
     {
         /// <summary>
+        /// 日期统一格式
+        /// </summary>
+        public static string DateTimeStringShortFormat = "yyyy-MM-dd";
+
+        /// <summary>
         /// 复制Icon的Path到粘贴板
         /// </summary>
         /// <param name="icon"></param>
         /// <returns></returns>
         public static bool CopyIconPath(Icon icon)
         {
-            var xe = new XElement("Path",
-                 new XAttribute("Name", icon.Name),
-                 new XAttribute("Width", icon.Width),
-                 new XAttribute("Height", icon.Height),
-                 new XAttribute("Data", icon.Data)
-                //new XAttribute("Keyword", icon.Keyword)
-                 );
             try
             {
+                var xe = new XElement("Path",
+                new XAttribute("Name", icon.Name),
+                new XAttribute("Width", icon.Width),
+                new XAttribute("Height", icon.Height),
+                new XAttribute("Data", icon.Data)
+                    //new XAttribute("Keyword", icon.Keyword)
+                );
                 Clipboard.SetText(xe.ToString());
+                return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Error("CopyIconPath has occur exception:" + ex);
                 return false;
             }
-            return true;
         }
 
         /// <summary>
@@ -53,13 +59,13 @@ namespace YourIcons.Model
             try
             {
                 Clipboard.SetText(icon.Data);
+                return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Error("CopyIconPathData has occur exception:" + ex);
                 return false;
             }
-            return true;
         }
 
         /// <summary>
@@ -67,6 +73,7 @@ namespace YourIcons.Model
         /// </summary>
         /// <param name="icon"></param>
         /// <returns></returns>
+        [Obsolete("Has no use for Now")]
         public static bool CopyIconPng(Icon icon)
         {
             var canvas = GetCanvas(icon);
@@ -134,25 +141,25 @@ namespace YourIcons.Model
         /// <returns></returns>
         public static bool SavePng(Icon icon, string filename = "")
         {
-            if (string.IsNullOrEmpty(filename))
-            {
-                var d = System.IO.Path.Combine(Environment.CurrentDirectory, "Images");
-                if (!Directory.Exists(d))
-                {
-                    Directory.CreateDirectory(d);
-                }
-                filename = System.IO.Path.Combine(d, icon.Name + ".png");
-            }
-
-            var canvas = GetCanvas(icon);
             try
             {
+                if (string.IsNullOrEmpty(filename))
+                {
+                    var d = System.IO.Path.Combine(Environment.CurrentDirectory, "Images");
+                    if (!Directory.Exists(d))
+                    {
+                        Directory.CreateDirectory(d);
+                    }
+                    filename = System.IO.Path.Combine(d, icon.Name + ".png");
+                }
+
+                var canvas = GetCanvas(icon);
                 SaveCanvas(canvas, filename);
                 return true;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LoggingService.Error("SavePng has occur exception:" + ex);
                 return false;
             }
         }
@@ -189,7 +196,10 @@ namespace YourIcons.Model
                 element.Attribute("Data") == null ||
                 element.Attribute("Height") == null ||
                 element.Attribute("Width") == null)
+            {
+                LoggingService.Warn("GetIconFromElement failed for is null or some attributes is null");
                 return null;
+            }
 
             var icon = new Icon();
             icon.Name = element.Attribute("Name").Value;

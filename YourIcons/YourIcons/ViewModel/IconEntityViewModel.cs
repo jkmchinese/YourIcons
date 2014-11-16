@@ -60,6 +60,7 @@ namespace YourIcons.ViewModel
             m_height = icon.Height;
             m_width = icon.Width;
             m_data = icon.Data;
+            m_keyword = icon.Keyword;
         }
 
         public ICommand SaveCommand { get; private set; }
@@ -159,7 +160,9 @@ namespace YourIcons.ViewModel
             Validator.AddRequiredRule(() => Height, "Height is required");
 
             Validator.AddRequiredRule(() => Data, "Data is required");
-
+            Validator.AddRule(() => Name,
+                              () => RuleResult.Assert(DataRetrieved.Instance.ValidateIconName(Name),
+                                  "Name is duplicated"));
             //Validator.AddRule(() => Data,
             //                  () =>
             //                  {

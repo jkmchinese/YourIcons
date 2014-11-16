@@ -8,19 +8,6 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid>
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Opacity=".2">
-            <Path Width="256"
-                  Height="256"
-                  Stretch="Uniform"
-                  Data="{Binding SelectedIcon.Data}"
-                  Margin="2"
-                  Fill="{StaticResource WindowText}"></Path>
-            <TextBlock Text="{Binding SelectedIcon.Name}"
-                       FontSize="32"
-                       HorizontalAlignment="Center"></TextBlock>
-        </StackPanel>
         <ListBox ItemContainerStyle="{StaticResource Style}"
                  Background="Transparent"
                  ItemsSource="{Binding IconList}"
@@ -36,5 +23,20 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Opacity=".2"
+                    IsHitTestVisible="False"
+                    x:Name="PathStackPanel">
+            <Path Width="256"
+                  Height="256"
+                  Stretch="Uniform"
+                  Data="{Binding SelectedIcon.Data}"
+                  Margin="2"
+                  Fill="{DynamicResource WindowText}"></Path>
+            <TextBlock Text="{Binding SelectedIcon.Name}"
+                       FontSize="32"
+                       HorizontalAlignment="Center"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

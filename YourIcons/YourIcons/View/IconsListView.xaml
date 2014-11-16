@@ -8,16 +8,6 @@
              d:DesignHeight="300"
              d:DesignWidth="300">
     <Grid>
-        <Path Width="256"
-              Height="256"
-              Stretch="Uniform"
-              Data="{Binding SelectedIcon.Data}"
-              Margin="2"
-              Fill="{DynamicResource WindowText}"
-              Opacity=".2"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center"></Path>
-
         <DataGrid Name="IconsDataGrid"
                   AutoGenerateColumns="False"
                   ItemsSource="{Binding IconList}"
@@ -72,5 +62,17 @@
                                         Binding="{Binding Keyword}" />
             </DataGrid.Columns>
         </DataGrid>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Opacity=".2"
+                    IsHitTestVisible="False"
+                    x:Name="PathStackPanel">
+            <Path Width="256"
+                  Height="256"
+                  Stretch="Uniform"
+                  Data="{Binding SelectedIcon.Data}"
+                  Margin="2"
+                  Fill="{DynamicResource WindowText}"></Path>
+        </StackPanel>
     </Grid>
 </UserControl>
