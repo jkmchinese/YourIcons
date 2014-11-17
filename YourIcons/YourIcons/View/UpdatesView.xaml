@@ -17,9 +17,7 @@
                   IsReadOnly="True"
                   SelectedItem="{Binding SelectedIcon}"
                   SelectionMode="Single"
-                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                  VirtualizingPanel.ScrollUnit="Item"
-                  VirtualizingPanel.VirtualizationMode="Recycling">
+                  VirtualizingPanel.IsVirtualizingWhenGrouping="True">
             <DataGrid.Resources>
                 <ToolTip x:Key="IconToolTip"
                          x:Shared="True">
@@ -50,12 +48,12 @@
                                                                FontWeight="Bold"
                                                                FontSize="16"
                                                                Margin="2"
-                                                               Foreground="{StaticResource WindowText}" />
+                                                               Foreground="{DynamicResource WindowText}" />
                                                     <TextBlock Text="{Binding Items[0].CreatedDateTime, StringFormat='yyyy-MM-dd'}"
                                                                FontWeight="Bold"
                                                                FontSize="16"
                                                                Margin="2"
-                                                               Foreground="{StaticResource WindowText}" />
+                                                               Foreground="{DynamicResource WindowText}" />
                                                 </StackPanel>
                                             </Expander.Header>
                                             <ItemsPresenter />

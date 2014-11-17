@@ -148,7 +148,8 @@ namespace YourIcons.ViewModel
             var k = item as Icon;
             if (!string.IsNullOrEmpty(m_searchStr) && k != null)
             {
-                return Regex.IsMatch(k.Name, m_searchStr, RegexOptions.IgnoreCase);
+                return Regex.IsMatch(k.Name, m_searchStr, RegexOptions.IgnoreCase) ||
+                    (!string.IsNullOrEmpty(k.Keyword) && Regex.IsMatch(k.Keyword, m_searchStr, RegexOptions.IgnoreCase));
                 //return k.Name.ToLower(CultureInfo.InvariantCulture).Contains(m_searchStr);
             }
             return true;

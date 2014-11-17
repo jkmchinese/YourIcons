@@ -55,7 +55,7 @@
                               Stretch="Uniform"
                               Data="{Binding Data}"
                               Margin="2"
-                              Fill="{StaticResource WindowText}"></Path>
+                              Fill="{DynamicResource WindowText}"></Path>
                     </ToolTip>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
@@ -69,7 +69,7 @@
                                           Height="24"
                                           Stretch="Uniform"
                                           Data="{Binding Data}"
-                                          Fill="{StaticResource WindowText}"></Path>
+                                          Fill="{DynamicResource WindowText}"></Path>
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

@@ -42,9 +42,9 @@ namespace YourIcons.ViewModel
 
         public UpdatesViewModel()
         {
-            m_firstIcon = DataRetrieved.Instance.IconList.FirstOrDefault();
-
-            var list = DataRetrieved.Instance.IconList.Where(o => o.CreatedDateTime > m_firstIcon.CreatedDateTime);
+            //m_firstIcon = DataRetrieved.Instance.IconList.FirstOrDefault();
+            var baseDateTime = DateTime.Parse("2014/11/9");
+            var list = DataRetrieved.Instance.IconList.Where(o => o.CreatedDateTime > baseDateTime);
 
             m_updateIconsList = new ObservableCollection<Icon>(list);
             m_collectionView = (ListCollectionView)CollectionViewSource.GetDefaultView(UpdateIconsList);
