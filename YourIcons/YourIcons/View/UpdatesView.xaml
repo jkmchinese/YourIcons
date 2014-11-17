@@ -51,7 +51,7 @@
                                                                FontSize="16"
                                                                Margin="2"
                                                                Foreground="{StaticResource WindowText}" />
-                                                    <TextBlock Text="{Binding Items[0].CreatedDataTime, StringFormat='yyyy-MM-dd'}"
+                                                    <TextBlock Text="{Binding Items[0].CreatedDateTime, StringFormat='yyyy-MM-dd'}"
                                                                FontWeight="Bold"
                                                                FontSize="16"
                                                                Margin="2"

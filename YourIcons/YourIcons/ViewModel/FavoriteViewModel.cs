@@ -49,7 +49,7 @@ namespace YourIcons.ViewModel
             EditCmd = new RelayCommand(EditCmdExcute);
             ExportCmd = new RelayCommand(ExportCmdExcute);
             DeleteCmd = new RelayCommand(DeleteCmdExcute);
-            FavouriteCmd = new RelayCommand(FavouriteCmdExcute);
+            UnFavouriteCmd = new RelayCommand(UnFavouriteCmdExcute);
         }
 
         void Instance_IconModified(object sender, IconEventArgs e)
@@ -70,7 +70,7 @@ namespace YourIcons.ViewModel
         public ICommand EditCmd { get; set; }
         public ICommand ExportCmd { get; set; }
         public ICommand DeleteCmd { get; set; }
-        public ICommand FavouriteCmd { get; set; }
+        public ICommand UnFavouriteCmd { get; set; }
 
         private void CopyPathCmdExcute(object obj)
         {
@@ -103,9 +103,9 @@ namespace YourIcons.ViewModel
                 DataRetrieved.Instance.DeleteIcon(m_selectedIcon);
         }
 
-        private void FavouriteCmdExcute(object obj)
+        private void UnFavouriteCmdExcute(object obj)
         {
-            DataRetrieved.Instance.FavoriteIcon(m_selectedIcon);
+            DataRetrieved.Instance.UnFavoriteIcon(m_selectedIcon);
         }
         #endregion
     }

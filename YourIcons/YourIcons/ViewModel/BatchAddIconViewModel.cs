@@ -146,7 +146,7 @@ namespace YourIcons.ViewModel
                     var icon = IconHelper.GetIconFromElement(xElement);
                     if (icon != null)
                     {
-                        icon.CreatedDataTime = DateTime.Now;
+                        icon.CreatedDateTime = DateTime.Now;
                         m_importIcons.Add(icon);
                     }
                     else

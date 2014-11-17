@@ -17,8 +17,8 @@ namespace YourIcons.Model
                 Height = Height,
                 Data = Data,
                 Keyword = Keyword,
-                CreatedDataTime = CreatedDataTime,
-                ModifiedDataTime = ModifiedDataTime,
+                CreatedDateTime = CreatedDateTime,
+                ModifiedDateTime = ModifiedDateTime,
                 IsFavourite = IsFavourite
             };
         }

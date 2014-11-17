@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -146,7 +148,8 @@ namespace YourIcons.ViewModel
             var k = item as Icon;
             if (!string.IsNullOrEmpty(m_searchStr) && k != null)
             {
-                return k.Name.Contains(m_searchStr);
+                return Regex.IsMatch(k.Name, m_searchStr, RegexOptions.IgnoreCase);
+                //return k.Name.ToLower(CultureInfo.InvariantCulture).Contains(m_searchStr);
             }
             return true;
         }

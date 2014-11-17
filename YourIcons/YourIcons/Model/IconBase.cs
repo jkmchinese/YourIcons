@@ -15,8 +15,8 @@ namespace YourIcons.Model
         private double m_height;
         private string m_keyword;
         private const double TOLERANCE = 0.001;
-        private DateTime m_createdDataTime;
-        private DateTime m_modifiedDataTime;
+        private DateTime m_createdDateTime;
+        private DateTime m_modifiedDateTime;
         private bool m_isFavourite;
 
 
@@ -100,33 +100,33 @@ namespace YourIcons.Model
             }
 
         }
-        public DateTime CreatedDataTime
+        public DateTime CreatedDateTime
         {
             get
             {
-                return m_createdDataTime;
+                return m_createdDateTime;
             }
             set
             {
-                if (m_createdDataTime != value)
+                if (m_createdDateTime != value)
                 {
-                    m_createdDataTime = value;
-                    OnPropertyChanged(() => this.CreatedDataTime);
+                    m_createdDateTime = value;
+                    OnPropertyChanged(() => this.CreatedDateTime);
                 }
             }
         }
-        public DateTime ModifiedDataTime
+        public DateTime ModifiedDateTime
         {
             get
             {
-                return m_modifiedDataTime;
+                return m_modifiedDateTime;
             }
             set
             {
-                if (m_modifiedDataTime != value)
+                if (m_modifiedDateTime != value)
                 {
-                    m_modifiedDataTime = value;
-                    OnPropertyChanged(() => this.ModifiedDataTime);
+                    m_modifiedDateTime = value;
+                    OnPropertyChanged(() => this.ModifiedDateTime);
                 }
             }
         }
@@ -145,6 +145,8 @@ namespace YourIcons.Model
                 }
             }
         }
+        public string GroupName { get { return m_createdDateTime.ToString(IconHelper.DateTimeStringShortFormat); } }
+
 
         #region ICloneable Members
 

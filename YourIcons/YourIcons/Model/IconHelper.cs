@@ -177,8 +177,8 @@ namespace YourIcons.Model
                 new XAttribute("Height", icon.Height),
                 new XAttribute("Data", icon.Data),
                 new XAttribute("Keyword", icon.Keyword ?? string.Empty),
-                new XAttribute("CreatedDataTime", icon.CreatedDataTime.ToString("d")),
-                new XAttribute("ModifiedDataTime", icon.ModifiedDataTime == DateTime.MinValue ? string.Empty : icon.ModifiedDataTime.ToString("d")),
+                new XAttribute("CreatedDateTime", icon.CreatedDateTime.ToString("d")),
+                new XAttribute("ModifiedDateTime", icon.ModifiedDateTime == DateTime.MinValue ? string.Empty : icon.ModifiedDateTime.ToString("d")),
                 new XAttribute("IsFavourite", icon.IsFavourite)
                 );
             return xe;
@@ -210,25 +210,25 @@ namespace YourIcons.Model
             if (element.Attribute("IsFavourite") != null)
                 icon.IsFavourite = bool.Parse(element.Attribute("IsFavourite").Value);
 
-            if (element.Attribute("CreatedDataTime") != null)
+            if (element.Attribute("CreatedDateTime") != null)
             {
-                string cdt = element.Attribute("CreatedDataTime").Value;
+                string cdt = element.Attribute("CreatedDateTime").Value;
                 if (!string.IsNullOrEmpty(cdt))
                 {
-                    DateTime createdDataTime;
-                    DateTime.TryParse(cdt, out createdDataTime);
-                    icon.CreatedDataTime = createdDataTime;
+                    DateTime createdDateTime;
+                    DateTime.TryParse(cdt, out createdDateTime);
+                    icon.CreatedDateTime = createdDateTime;
                 }
             }
 
-            if (element.Attribute("ModifiedDataTime") != null)
+            if (element.Attribute("ModifiedDateTime") != null)
             {
-                string mdt = element.Attribute("ModifiedDataTime").Value;
+                string mdt = element.Attribute("ModifiedDateTime").Value;
                 if (!string.IsNullOrEmpty(mdt))
                 {
-                    DateTime modifiedDataTime;
-                    DateTime.TryParse(mdt, out modifiedDataTime);
-                    icon.ModifiedDataTime = modifiedDataTime;
+                    DateTime modifiedDateTime;
+                    DateTime.TryParse(mdt, out modifiedDateTime);
+                    icon.ModifiedDateTime = modifiedDateTime;
                 }
             }
             if (element.Attribute("Keyword") != null)
@@ -298,8 +298,8 @@ namespace YourIcons.Model
             target.Width = source.Width;
             target.Height = source.Height;
             target.Keyword = source.Keyword;
-            target.CreatedDataTime = source.CreatedDataTime;
-            target.ModifiedDataTime = source.ModifiedDataTime;
+            target.CreatedDateTime = source.CreatedDateTime;
+            target.ModifiedDateTime = source.ModifiedDateTime;
             target.IsFavourite = source.IsFavourite;
         }
 

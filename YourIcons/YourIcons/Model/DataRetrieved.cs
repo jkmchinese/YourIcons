@@ -99,7 +99,7 @@ namespace YourIcons.Model
 
         private XElement GetSaveElement(Icon icon, bool isExit = false)
         {
-            string dateTime = icon.CreatedDataTime.ToString(IconHelper.DateTimeStringShortFormat);
+            string dateTime = icon.CreatedDateTime.ToString(IconHelper.DateTimeStringShortFormat);
 
             foreach (KeyValuePair<XElement, string> keyValuePair in m_doc_file)
             {

@@ -44,11 +44,11 @@ namespace YourIcons.ViewModel
         {
             m_firstIcon = DataRetrieved.Instance.IconList.FirstOrDefault();
 
-            var list = DataRetrieved.Instance.IconList.Where(o => o.CreatedDataTime > m_firstIcon.CreatedDataTime);
+            var list = DataRetrieved.Instance.IconList.Where(o => o.CreatedDateTime > m_firstIcon.CreatedDateTime);
 
             m_updateIconsList = new ObservableCollection<Icon>(list);
             m_collectionView = (ListCollectionView)CollectionViewSource.GetDefaultView(UpdateIconsList);
-            m_collectionView.GroupDescriptions.Add(new PropertyGroupDescription("CreatedDateTime"));
+            m_collectionView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
             DataRetrieved.Instance.IconAdded += Instance_IconAdded;
             DataRetrieved.Instance.IconDeleted += Instance_IconDeleted;
             CopyPathCmd = new RelayCommand(CopyPathCmdExcute);
@@ -105,7 +105,7 @@ namespace YourIcons.ViewModel
 
         void Instance_IconDeleted(object sender, IconEventArgs e)
         {
-            if (e.Icon.CreatedDataTime > m_firstIcon.CreatedDataTime)
+            if (e.Icon.CreatedDateTime > m_firstIcon.CreatedDateTime)
             {
                 m_updateIconsList.Remove(e.Icon);
             }
