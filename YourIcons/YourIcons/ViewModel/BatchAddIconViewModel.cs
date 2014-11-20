@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
+using LWLCX.Framework.Common.Logger;
 using ModernUI.Presentation;
 using ModernUI.Windows.Controls;
 using MvvmValidation;
@@ -151,13 +152,13 @@ namespace YourIcons.ViewModel
                     }
                     else
                     {
-                        Debug.WriteLine("Path Error:" + xElement);
+                        LoggingService.Error("BatchAdd Path Error:" + xElement);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("ReadFile Error:" + ex);
+                LoggingService.Error("ReadFile Error:" + ex);
             }
         }
 

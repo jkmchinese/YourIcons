@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="YourIcons.View.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mui="http://lwlcx.com.cn/ModernUI"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Path Width="64"
+                      Height="64"
+                      Fill="{DynamicResource Accent}"
+                      Stretch="Uniform"
+                      Margin="5"
+                      Data="{StaticResource LogoGeometry}"></Path>
+                <TextBlock Text="YourIcons"
+                           Margin="5"
+                           VerticalAlignment="Center"
+                           Style="{DynamicResource Heading1}"
+                           Foreground="{DynamicResource Accent}"></TextBlock>
+            </StackPanel>
+            <TextBlock x:Name="VersionTextBlock"></TextBlock>
+            <!--<mui:BBCodeBlock BBCode="Simple rich text formatting using BBCode. Supporting [b]bold[/b], [i]italic[/i], [b][i]bold italic[/i][/b], [u]underline[/u], [color=#ff4500]colors[/color], [size=10]different[/size] [size=16]sizes[/size] and support for [url=http://xamlspy.com]navigable urls[/url].&#13;&#10;&#13;&#10;BBCode formatted text works great with MVVM.&#13;&#10;&#13;&#10;To learn more about link navigation see the [url=/Pages/Navigation.xaml|_top]navigation page[/url]." />-->
+
+            <StackPanel Margin="0 10 0 0">
+                <TextBlock Text="Application Framework"
+                           Style="{DynamicResource Heading2}"></TextBlock>
+                <mui:BBCodeBlock BBCode="Fantastic UI Framework: [url=https://mui.codeplex.com/]Modern UI for WPF[/url] ." />
+            </StackPanel>
+            <StackPanel Margin="0 10 0 0">
+                <TextBlock Text="Base Icons Source"
+                           Style="{DynamicResource Heading2}"></TextBlock>
+                <mui:BBCodeBlock BBCode="A Website that host lots of Great Icons: [url=http://modernuiicons.com/]Modern UI Icons[/url] ." />
+            </StackPanel>
+            <StackPanel Margin="0 10 0 0">
+                <TextBlock x:Name="CreatedTextBlock"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

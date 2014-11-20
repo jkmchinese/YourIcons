@@ -9,7 +9,9 @@
                   Command="{Binding Path=DataContext.CopyPathDataCmd, 
                 RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
         <Separator />
-        <MenuItem Header="(_E)xport"></MenuItem>
+        <MenuItem Header="(_E)xport"
+                  Command="{Binding Path=DataContext.ExportCmd,
+                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
         <MenuItem Header="(_F)avorite"
                   Command="{Binding Path=DataContext.FavouriteCmd,
                 RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
@@ -66,7 +68,9 @@
                   Command="{Binding Path=DataContext.CopyPathDataCmd, 
                 RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
         <Separator />
-        <MenuItem Header="(_E)xport"></MenuItem>
+        <MenuItem Header="(_E)xport"
+                  Command="{Binding Path=DataContext.ExportCmd,
+                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
         <MenuItem Header="(_U)nFavorite"
                   Command="{Binding Path=DataContext.UnFavouriteCmd,
                 RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>

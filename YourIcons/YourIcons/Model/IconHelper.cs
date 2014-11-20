@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using LWLCX.Framework.Common.Logger;
 using ModernUI.Presentation;
+using ModernUI.UIHelper;
 using Path = System.Windows.Shapes.Path;
 
 namespace YourIcons.Model
@@ -69,61 +70,31 @@ namespace YourIcons.Model
         }
 
         /// <summary>
-        /// 复制Icon为Png到粘贴板
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <returns></returns>
-        [Obsolete("Has no use for Now")]
-        public static bool CopyIconPng(Icon icon)
-        {
-            var canvas = GetCanvas(icon);
-
-            var transform = canvas.LayoutTransform;
-            canvas.LayoutTransform = null;
-
-            var size = new Size(canvas.Width, canvas.Height);
-
-            canvas.Measure(size);
-            canvas.Arrange(new Rect(size));
-
-            var renderBitmap = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96d, 96d, PixelFormats.Pbgra32);
-            renderBitmap.Render(canvas);
-
-            canvas.LayoutTransform = transform;
-            try
-            {
-                Clipboard.SetImage(renderBitmap);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                return false;
-            }
-            return true;
-        }
-
-        /// <summary>
         /// 通过Icon获取Canvas
         /// </summary>
         /// <param name="icon"></param>
         /// <returns></returns>
-        public static Canvas GetCanvas(Icon icon)
+        public static Canvas GetCanvas(Canvas canvasExport)
         {
+            var exportPath = canvasExport.FindChild<Path>();
+
             Canvas canvas = new Canvas();
-            canvas.Width = 32;
-            canvas.Height = 32;
-            canvas.Background = Brushes.Transparent;
+            canvas.Width = canvasExport.Width;
+            canvas.Height = canvasExport.Height;
+            canvas.Background = canvasExport.Background;
 
             Grid g = new Grid();
-            g.Height = 32;
-            g.Width = 32;
-            g.Background = Brushes.SeaGreen;
+            g.Height = canvasExport.Width;
+            g.Width = canvasExport.Height;
+            g.Background = Brushes.Transparent;
 
             Path p = new Path();
-            p.Data = Geometry.Parse(icon.Data);
-            p.Fill = Application.Current.FindResource("WindowText") as SolidColorBrush;
+            p.Width = exportPath.Width;
+            p.Height = exportPath.Height;
+            p.Data = exportPath.Data;
+            p.Fill = exportPath.Fill;
             p.Stretch = Stretch.Uniform;
-            p.Margin = new Thickness(3);
+            p.Margin = new Thickness(canvasExport.Width - exportPath.Width);
             g.Children.Add(p);
 
             canvas.Children.Add(g);
@@ -136,16 +107,17 @@ namespace YourIcons.Model
         /// <summary>
         /// 保存Png文件
         /// </summary>
+        /// <param name="canvas"></param>
         /// <param name="icon"></param>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static bool SavePng(Icon icon, string filename = "")
+        public static bool SavePng(Canvas canvas, Icon icon, string filename = "")
         {
             try
             {
                 if (string.IsNullOrEmpty(filename))
                 {
-                    var d = System.IO.Path.Combine(Environment.CurrentDirectory, "Images");
+                    var d = System.IO.Path.Combine(Environment.CurrentDirectory, "Export");
                     if (!Directory.Exists(d))
                     {
                         Directory.CreateDirectory(d);
@@ -153,13 +125,36 @@ namespace YourIcons.Model
                     filename = System.IO.Path.Combine(d, icon.Name + ".png");
                 }
 
-                var canvas = GetCanvas(icon);
-                SaveCanvas(canvas, filename);
+                var canvasExport = GetCanvas(canvas);
+                SaveCanvas(canvasExport, filename);
                 return true;
             }
             catch (Exception ex)
             {
                 LoggingService.Error("SavePng has occur exception:" + ex);
+                return false;
+            }
+        }
+
+        public static bool SavePathFile(XElement canvasElement, Icon icon, string filename = "")
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(filename))
+                {
+                    var d = System.IO.Path.Combine(Environment.CurrentDirectory, "Export");
+                    if (!Directory.Exists(d))
+                    {
+                        Directory.CreateDirectory(d);
+                    }
+                    filename = System.IO.Path.Combine(d, icon.Name + ".xaml");
+                }
+                canvasElement.Save(filename);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LoggingService.Error("SavePathFile has occur exception:" + ex);
                 return false;
             }
         }

@@ -24,6 +24,7 @@ namespace YourIcons.ViewModel
         private string m_searchStr;
         private IconEntityWindow m_eidtIconWindow;
         private ViewType m_currentViewType;
+        private ExportIconWindow m_exportWindow;
 
         public Icon SelectedIcon
         {
@@ -113,7 +114,9 @@ namespace YourIcons.ViewModel
 
         private void ExportCmdExcute(object obj)
         {
-            throw new NotImplementedException();
+            m_exportWindow = new ExportIconWindow();
+            m_exportWindow.DataContext = new ExportViewModel(m_exportWindow, m_selectedIcon);
+            m_exportWindow.Show();
         }
 
         private void DeleteCmdExcute(object obj)

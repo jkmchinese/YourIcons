@@ -78,6 +78,7 @@
     <Compile Include="Model\IconHelper.cs" />
     <Compile Include="Model\ViewType.cs" />
     <Compile Include="ViewModel\BatchAddIconViewModel.cs" />
+    <Compile Include="ViewModel\ExportViewModel.cs" />
     <Compile Include="ViewModel\FavoriteViewModel.cs" />
     <Compile Include="ViewModel\IconEntityViewModel.cs" />
     <Compile Include="ViewModel\NavViewModel.cs" />
@@ -87,6 +88,12 @@
     <Compile Include="Model\IconBase.cs" />
     <Compile Include="ViewModel\IconsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelRetrived.cs" />
+    <Compile Include="View\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExportIconWindow.xaml.cs">
+      <DependentUpon>ExportIconWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FavoriteView.xaml.cs">
       <DependentUpon>FavoriteView.xaml</DependentUpon>
     </Compile>
@@ -142,6 +149,14 @@
     <Page Include="Styles\YourIconsWindowStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ExportIconWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\FavoriteView.xaml">
       <SubType>Designer</SubType>
