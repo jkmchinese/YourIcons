@@ -12,6 +12,8 @@ namespace YourIcons.ViewModel
         private static ViewModelRetrived _instance;
         private NavViewModel m_navViewModelInstance;
         private IconsViewModel m_iconsViewModelInstance;
+        private IconsetViewModel m_iconsetViewModelInstance;
+        private NewIconsViewModel m_newIconsViewModelInstance;
 
         public static ViewModelRetrived Instance
         {
@@ -64,5 +66,38 @@ namespace YourIcons.ViewModel
                 return m_iconsViewModelInstance;
             }
         }
+
+        public NewIconsViewModel NewIconsViewModelInstance
+        {
+            get
+            {
+                if (m_newIconsViewModelInstance == null)
+                {
+                    lock (_locker)
+                    {
+                        if (m_newIconsViewModelInstance == null)
+                            m_newIconsViewModelInstance = new NewIconsViewModel();
+                    }
+                }
+                return m_newIconsViewModelInstance;
+            }
+        }
+
+        public IconsetViewModel IconsetViewModelInstance
+        {
+            get
+            {
+                if (m_iconsetViewModelInstance == null)
+                {
+                    lock (_locker)
+                    {
+                        if (m_iconsetViewModelInstance == null)
+                            m_iconsetViewModelInstance = new IconsetViewModel();
+                    }
+                }
+                return m_iconsetViewModelInstance;
+            }
+        }
+
     }
 }

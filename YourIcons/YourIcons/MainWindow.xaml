@@ -4,7 +4,7 @@
                           xmlns:controls="clr-namespace:YourIcons.Controls"
                           xmlns:mui="http://lwlcx.com.cn/ModernUI"
                           xmlns:view="clr-namespace:YourIcons.View"
-                          Title="YourIcons"
+                          Title="TopIcons"
                           IsTitleVisible="True"
                           LogoData="{StaticResource LogoGeometry}"
                           Height="600"
@@ -13,7 +13,7 @@
                           MinHeight="600"
                           WindowStartupLocation="CenterScreen"
                           Style="{StaticResource {x:Type controls:YourIconsWindow}}"
-                          ContentSource="/View/IconsView.xaml">
+                          ContentSource="/View/IconsetView.xaml">
 
     <controls:YourIconsWindow.TitleLinks>
         <mui:Link DisplayName="Settings"
@@ -22,12 +22,17 @@
                   Source="/View/Settings.xaml" />
     </controls:YourIconsWindow.TitleLinks>
     <controls:YourIconsWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="IconSets">
+        <mui:LinkGroup DisplayName="IconSets"
+                       x:Name="IconSetsLinkGroup">
             <mui:LinkGroup.Links>
+                <mui:Link DisplayName="Iconsets"
+                          Source="/View/IconsetView.xaml" />
+                <!--<mui:Link DisplayName="Updates"
+                          Source="/View/UpdatesView.xaml" />-->
                 <mui:Link DisplayName="Icons"
-                          Source="/View/IconsView.xaml" />
-                <mui:Link DisplayName="Updates"
-                          Source="/View/UpdatesView.xaml" />
+                          Source="/View/NewIconsView.xaml" />
+                <mui:Link DisplayName="Search"
+                          Source="/View/NewIconsView.xaml" />
                 <mui:Link DisplayName="Favorites"
                           Source="/View/FavoriteView.xaml" />
                 <!--<mui:Link DisplayName="RecycleBin"

@@ -6,21 +6,11 @@ using System.Threading.Tasks;
 
 namespace YourIcons.Model
 {
+    /// <summary>
+    /// 基本图标
+    /// </summary>
     public class Icon : IconBase
     {
-        public override object Clone()
-        {
-            return new Icon()
-            {
-                Name = Name,
-                Width = Width,
-                Height = Height,
-                Data = Data,
-                Keyword = Keyword,
-                CreatedDateTime = CreatedDateTime,
-                ModifiedDateTime = ModifiedDateTime,
-                IsFavourite = IsFavourite
-            };
-        }
+        public string Data { get; set; }
     }
 }

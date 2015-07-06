@@ -44,7 +44,7 @@ namespace YourIcons.ViewModel
         {
             //m_firstIcon = DataRetrieved.Instance.IconList.FirstOrDefault();
             var baseDateTime = DateTime.Parse("2014/11/9");
-            var list = DataRetrieved.Instance.IconList.Where(o => o.CreatedDateTime > baseDateTime);
+            var list = DataRetrieved.Instance.IconList.Where(o => o.CreatedTime > baseDateTime);
 
             m_updateIconsList = new ObservableCollection<Icon>(list);
             m_collectionView = (ListCollectionView)CollectionViewSource.GetDefaultView(UpdateIconsList);
@@ -105,7 +105,7 @@ namespace YourIcons.ViewModel
 
         void Instance_IconDeleted(object sender, IconEventArgs e)
         {
-            if (e.Icon.CreatedDateTime > m_firstIcon.CreatedDateTime)
+            if (e.Icon.CreatedTime > m_firstIcon.CreatedTime)
             {
                 m_updateIconsList.Remove(e.Icon);
             }

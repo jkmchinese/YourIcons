@@ -49,7 +49,7 @@
                                                                FontSize="16"
                                                                Margin="2"
                                                                Foreground="{DynamicResource WindowText}" />
-                                                    <TextBlock Text="{Binding Items[0].CreatedDateTime, StringFormat='yyyy-MM-dd'}"
+                                                    <TextBlock Text="{Binding Items[0].CreatedTime, StringFormat='yyyy-MM-dd'}"
                                                                FontWeight="Bold"
                                                                FontSize="16"
                                                                Margin="2"

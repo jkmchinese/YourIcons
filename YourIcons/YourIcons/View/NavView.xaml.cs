@@ -27,11 +27,11 @@ namespace YourIcons.View
         {
             InitializeComponent();
             this.DataContext = ViewModelRetrived.Instance.NavViewModelInstance;
-            var mainWin = Application.Current.MainWindow as ModernWindow;
-            var enableBinding = new Binding("ContentSource");
-            enableBinding.Source = mainWin;
-            enableBinding.Converter = new NavSearchIsEnableConverter();
-            this.IconsViewStackPanel.SetBinding(UIElement.IsEnabledProperty, enableBinding);
+            //var mainWin = Application.Current.MainWindow as ModernWindow;
+            //var enableBinding = new Binding("ContentSource");
+            //enableBinding.Source = mainWin;
+            //enableBinding.Converter = new NavSearchIsEnableConverter();
+            //this.IconsViewStackPanel.SetBinding(UIElement.IsEnabledProperty, enableBinding);
         }
     }
 }

@@ -16,13 +16,13 @@
                   Command="{Binding Path=DataContext.FavouriteCmd,
                 RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
         <Separator />
-        <MenuItem Header="Delete"
+        <!--<MenuItem Header="Delete"
                   Command="{Binding Path=DataContext.DeleteCmd, 
                 RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
-        <Separator />
-        <MenuItem Header="Edit"
+        <Separator />-->
+        <!--<MenuItem Header="Edit"
                   Command="{Binding Path=DataContext.EditCmd, 
-                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>
+                RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}}"></MenuItem>-->
     </ContextMenu>
 
     <ContentControl x:Key="TooltipContentControl"

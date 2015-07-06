@@ -33,8 +33,11 @@ namespace YourIcons.Model
             }
         }
 
+        public IList<Iconset> Iconsets { get; set; }
+
         private DataRetrieved()
         {
+
             m_iconLists = new ObservableCollection<Icon>();
             m_doc_file = new Dictionary<XElement, string>();
             try
@@ -45,6 +48,75 @@ namespace YourIcons.Model
             {
                 LoggingService.Error("DataRetrieved LoadData occur exception:\r\n" + ex);
             }
+
+            Iconsets = new List<Iconset>();
+
+
+            Iconsets.Add(new Iconset(m_iconLists)
+            {
+                ID = Guid.NewGuid().ToString(),
+                Name = "Shopping icons",
+                Author = new Author(),
+                Colored = true,
+                CreatedTime = DateTime.Now,
+                Filled = true,
+                ModifiedTime = DateTime.Now,
+                Outlined = true,
+                Vector = true
+            });
+
+            Iconsets.Add(new Iconset(m_iconLists)
+            {
+                ID = Guid.NewGuid().ToString(),
+                Name = "Lulu Icons",
+                Author = new Author(),
+                Colored = false,
+                CreatedTime = DateTime.Now,
+                Filled = true,
+                ModifiedTime = DateTime.Now,
+                Outlined = true,
+                Vector = true
+            });
+
+            Iconsets.Add(new Iconset(m_iconLists)
+            {
+                ID = Guid.NewGuid().ToString(),
+                Name = "Marketing Swifticons",
+                Author = new Author(),
+                Colored = false,
+                CreatedTime = DateTime.Now,
+                Filled = true,
+                ModifiedTime = DateTime.Now,
+                Outlined = true,
+                Vector = true
+            });
+
+            Iconsets.Add(new Iconset(m_iconLists)
+            {
+                ID = Guid.NewGuid().ToString(),
+                Name = "Subway Icon Set",
+                Author = new Author(),
+                Colored = false,
+                CreatedTime = DateTime.Now,
+                Filled = true,
+                ModifiedTime = DateTime.Now,
+                Outlined = true,
+                Vector = true
+            });
+
+            Iconsets.Add(new Iconset(m_iconLists)
+            {
+                ID = Guid.NewGuid().ToString(),
+                Name = "Ego icons",
+                Author = new Author(),
+                Colored = true,
+                CreatedTime = DateTime.Now,
+                Filled = true,
+                ModifiedTime = DateTime.Now,
+                Outlined = true,
+                Vector = true
+            });
+
         }
 
         public IList<Icon> IconList { get { return m_iconLists; } }
@@ -61,45 +133,46 @@ namespace YourIcons.Model
             var addElement = IconHelper.GetElementFromIcon(icon);
             var saveElement = GetSaveElement(icon);
             bool result = SaveData(saveElement, addElement);
-            if (result)
-            {
-                var newIcon = icon.Clone() as Icon;
-                m_iconLists.Add(newIcon);
-                OnIconAdded(newIcon);
-            }
+            //if (result)
+            //{
+            //    var newIcon = icon.Clone() as Icon;
+            //    m_iconLists.Add(newIcon);
+            //    OnIconAdded(newIcon);
+            //}
             LoggingService.Debug("end to addIcon,result:" + result);
             return result;
         }
 
         public bool FavoriteIcon(Icon icon)
         {
-            if (icon.IsFavourite)
-            {
-                return true;
-            }
-            LoggingService.Debug("start to FavoriteIcon:" + icon.Name);
-            icon.IsFavourite = true;
-            var result = ModifiedIcon(icon);
-            LoggingService.Debug("end to FavoriteIcon,result:" + result);
-            return result;
+            //if (icon.IsFavourite)
+            //{
+            //    return true;
+            //}
+            //LoggingService.Debug("start to FavoriteIcon:" + icon.Name);
+            //icon.IsFavourite = true;
+            //var result = ModifiedIcon(icon);
+            //LoggingService.Debug("end to FavoriteIcon,result:" + result);
+            //return result;
+            return true;
         }
 
         public bool UnFavoriteIcon(Icon icon)
         {
-            if (!icon.IsFavourite)
-            {
-                return true;
-            }
-            LoggingService.Debug("start to UnFavoriteIcon:" + icon.Name);
-            icon.IsFavourite = false;
-            var result = ModifiedIcon(icon);
-            LoggingService.Debug("end to UnFavoriteIcon,result:" + result);
+            //if (!icon.IsFavourite)
+            //{
+            //    return true;
+            //}
+            //LoggingService.Debug("start to UnFavoriteIcon:" + icon.Name);
+            //icon.IsFavourite = false;
+            //var result = ModifiedIcon(icon);
+            //LoggingService.Debug("end to UnFavoriteIcon,result:" + result);
             return true;
         }
 
         private XElement GetSaveElement(Icon icon, bool isExit = false)
         {
-            string dateTime = icon.CreatedDateTime.ToString(IconHelper.DateTimeStringShortFormat);
+            string dateTime = icon.CreatedTime.ToString(IconHelper.DateTimeStringShortFormat);
 
             foreach (KeyValuePair<XElement, string> keyValuePair in m_doc_file)
             {
@@ -239,12 +312,12 @@ namespace YourIcons.Model
 
             if (result)
             {
-                foreach (var icon in icons)
-                {
-                    var newIcon = icon.Clone() as Icon;
-                    m_iconLists.Add(newIcon);
-                    OnIconAdded(newIcon);
-                }
+                //foreach (var icon in icons)
+                //{
+                //    var newIcon = icon.Clone() as Icon;
+                //    m_iconLists.Add(newIcon);
+                //    OnIconAdded(newIcon);
+                //}
             }
             LoggingService.Debug("end to batchAddIcon,result:" + result);
             return result;

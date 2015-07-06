@@ -34,6 +34,7 @@
                                  VerticalAlignment="Top"
                                  Opacity="0"
                                  IsEnabled="False"
+                                 Visibility="Collapsed"
                                  SelectedItem="{Binding SelectedLinkGroup, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">

@@ -172,8 +172,8 @@ namespace YourIcons.Model
                 new XAttribute("Height", icon.Height),
                 new XAttribute("Data", icon.Data),
                 new XAttribute("Keyword", icon.Keyword ?? string.Empty),
-                new XAttribute("CreatedDateTime", icon.CreatedDateTime.ToString("d")),
-                new XAttribute("ModifiedDateTime", icon.ModifiedDateTime == DateTime.MinValue ? string.Empty : icon.ModifiedDateTime.ToString("d")),
+                new XAttribute("CreatedTime", icon.CreatedTime.ToString("d")),
+                new XAttribute("ModifiedTime", icon.ModifiedTime == DateTime.MinValue ? string.Empty : icon.ModifiedTime.ToString("d")),
                 new XAttribute("IsFavourite", icon.IsFavourite)
                 );
             return xe;
@@ -205,25 +205,25 @@ namespace YourIcons.Model
             if (element.Attribute("IsFavourite") != null)
                 icon.IsFavourite = bool.Parse(element.Attribute("IsFavourite").Value);
 
-            if (element.Attribute("CreatedDateTime") != null)
+            if (element.Attribute("CreatedTime") != null)
             {
-                string cdt = element.Attribute("CreatedDateTime").Value;
+                string cdt = element.Attribute("CreatedTime").Value;
                 if (!string.IsNullOrEmpty(cdt))
                 {
                     DateTime createdDateTime;
                     DateTime.TryParse(cdt, out createdDateTime);
-                    icon.CreatedDateTime = createdDateTime;
+                    icon.CreatedTime = createdDateTime;
                 }
             }
 
-            if (element.Attribute("ModifiedDateTime") != null)
+            if (element.Attribute("ModifiedTime") != null)
             {
-                string mdt = element.Attribute("ModifiedDateTime").Value;
+                string mdt = element.Attribute("ModifiedTime").Value;
                 if (!string.IsNullOrEmpty(mdt))
                 {
                     DateTime modifiedDateTime;
                     DateTime.TryParse(mdt, out modifiedDateTime);
-                    icon.ModifiedDateTime = modifiedDateTime;
+                    icon.ModifiedTime = modifiedDateTime;
                 }
             }
             if (element.Attribute("Keyword") != null)
@@ -267,13 +267,13 @@ namespace YourIcons.Model
             {
                 target.Attribute("IsFavourite").Value = source.Attribute("IsFavourite").Value;
             }
-            if (target.Attribute("CreatedDateTime") != null && source.Attribute("CreatedDateTime") != null)
+            if (target.Attribute("CreatedTime") != null && source.Attribute("CreatedTime") != null)
             {
-                target.Attribute("CreatedDateTime").Value = source.Attribute("CreatedDateTime").Value;
+                target.Attribute("CreatedTime").Value = source.Attribute("CreatedTime").Value;
             }
-            if (target.Attribute("ModifiedDateTime") != null && source.Attribute("ModifiedDateTime") != null)
+            if (target.Attribute("ModifiedTime") != null && source.Attribute("ModifiedTime") != null)
             {
-                target.Attribute("ModifiedDateTime").Value = source.Attribute("ModifiedDateTime").Value;
+                target.Attribute("ModifiedTime").Value = source.Attribute("ModifiedTime").Value;
             }
         }
 
@@ -293,8 +293,8 @@ namespace YourIcons.Model
             target.Width = source.Width;
             target.Height = source.Height;
             target.Keyword = source.Keyword;
-            target.CreatedDateTime = source.CreatedDateTime;
-            target.ModifiedDateTime = source.ModifiedDateTime;
+            target.CreatedTime = source.CreatedTime;
+            target.ModifiedTime = source.ModifiedTime;
             target.IsFavourite = source.IsFavourite;
         }
 

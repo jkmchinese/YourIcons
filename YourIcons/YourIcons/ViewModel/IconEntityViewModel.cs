@@ -202,12 +202,12 @@ namespace YourIcons.ViewModel
                 //SaveIcon
                 if (m_isNew)
                 {
-                    icon.CreatedDateTime = DateTime.Now;
+                    icon.CreatedTime = DateTime.Now;
                     result = DataRetrieved.Instance.AddIcon(icon);
                 }
                 else
                 {
-                    icon.ModifiedDateTime = DateTime.Now;
+                    icon.ModifiedTime = DateTime.Now;
                     result = DataRetrieved.Instance.ModifiedIcon(icon);
                 }
                 if (!result)
