@@ -13,28 +13,28 @@
                           MinHeight="600"
                           WindowStartupLocation="CenterScreen"
                           Style="{StaticResource {x:Type controls:YourIconsWindow}}"
-                          ContentSource="/View/IconsetView.xaml">
+                          ContentSource="/YourIcons;component/View/IconsetView.xaml">
 
     <controls:YourIconsWindow.TitleLinks>
         <mui:Link DisplayName="Settings"
-                  Source="/View/Settings.xaml" />
+                  Source="/YourIcons;component/View/Settings.xaml" />
         <mui:Link DisplayName="Help"
-                  Source="/View/Settings.xaml" />
+                  Source="/YourIcons;component/View/Settings.xaml" />
     </controls:YourIconsWindow.TitleLinks>
     <controls:YourIconsWindow.MenuLinkGroups>
         <mui:LinkGroup DisplayName="IconSets"
                        x:Name="IconSetsLinkGroup">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Iconsets"
-                          Source="/View/IconsetView.xaml" />
+                          Source="/YourIcons;component/View/IconsetView.xaml" />
                 <!--<mui:Link DisplayName="Updates"
                           Source="/View/UpdatesView.xaml" />-->
                 <mui:Link DisplayName="Icons"
-                          Source="/View/NewIconsView.xaml" />
+                          Source="/YourIcons;component/View/NewIconsView.xaml" />
                 <mui:Link DisplayName="Search"
-                          Source="/View/NewIconsView.xaml" />
+                          Source="/YourIcons;component/View/FavoriteView.xaml" />
                 <mui:Link DisplayName="Favorites"
-                          Source="/View/FavoriteView.xaml" />
+                          Source="/YourIcons;component/View/FavoriteView.xaml" />
                 <!--<mui:Link DisplayName="RecycleBin"
                           Source="/View/FavoriteView.xaml" />-->
             </mui:LinkGroup.Links>
@@ -44,7 +44,7 @@
                        GroupKey="settings">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="Settings"
-                          Source="/View/Settings.xaml" />
+                          Source="/YourIcons;component/View/Settings.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </controls:YourIconsWindow.MenuLinkGroups>

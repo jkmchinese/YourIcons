@@ -27,6 +27,7 @@ namespace YourIcons.View
         public NewIconsView()
         {
             InitializeComponent();
+            DataContext = ViewModelRetrived.Instance.NewIconsViewModelInstance;
         }
     }
 }

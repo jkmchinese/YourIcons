@@ -73,7 +73,8 @@ namespace YourIcons.ViewModel
         private void ViewIconsCmdExcute(object obj)
         {
             var modernWin = (Application.Current.MainWindow as ModernWindow);
-            (modernWin.LinkNavigator as DefaultLinkNavigator).Navigate(new Uri("/View/IconsTiteView.xaml", UriKind.RelativeOrAbsolute), modernWin, "ContentFrame");
+            if (modernWin != null)
+                modernWin.ContentSource = new Uri("/YourIcons;component/View/NewIconsView.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void HandleSelectedItemChanged()
