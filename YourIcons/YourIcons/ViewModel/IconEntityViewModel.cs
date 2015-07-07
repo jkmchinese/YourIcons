@@ -59,7 +59,7 @@ namespace YourIcons.ViewModel
             m_name = icon.Name;
             m_height = icon.Height;
             m_width = icon.Width;
-            m_data = icon.Data;
+            m_data = icon.FilledData;
             m_keyword = icon.Keyword;
         }
 
@@ -195,7 +195,7 @@ namespace YourIcons.ViewModel
                     Name = Name,
                     Width = Width,
                     Height = Height,
-                    Data = Data,
+                    FilledData = Data,
                     Keyword = Keyword
                 };
                 bool result = false;

@@ -73,8 +73,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ColoredIconControl.cs" />
     <Compile Include="Converters\NavSearchIsEnableConverter.cs" />
     <Compile Include="Model\Author.cs" />
+    <Compile Include="Model\ColoredIcon.cs" />
+    <Compile Include="Model\ColoredIconItem.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\Icon.cs" />
     <Compile Include="Model\IconHelper.cs" />

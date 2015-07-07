@@ -11,6 +11,13 @@ namespace YourIcons.Model
     /// </summary>
     public class Icon : IconBase
     {
-        public string Data { get; set; }
+        /// <summary>
+        /// 填充路径数据
+        /// </summary>
+        public string FilledData { get; set; }
+        /// <summary>
+        /// 线条路径数据
+        /// </summary>
+        public string OutlinedData { get; set; }
     }
 }

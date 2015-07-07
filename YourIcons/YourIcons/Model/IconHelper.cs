@@ -37,7 +37,7 @@ namespace YourIcons.Model
                 new XAttribute("Name", icon.Name),
                 new XAttribute("Width", icon.Width),
                 new XAttribute("Height", icon.Height),
-                new XAttribute("Data", icon.Data)
+                new XAttribute("Data", icon.FilledData)
                     //new XAttribute("Keyword", icon.Keyword)
                 );
                 Clipboard.SetText(xe.ToString());
@@ -59,7 +59,7 @@ namespace YourIcons.Model
         {
             try
             {
-                Clipboard.SetText(icon.Data);
+                Clipboard.SetText(icon.FilledData);
                 return true;
             }
             catch (Exception ex)
@@ -170,7 +170,7 @@ namespace YourIcons.Model
                 new XAttribute("Name", icon.Name),
                 new XAttribute("Width", icon.Width),
                 new XAttribute("Height", icon.Height),
-                new XAttribute("Data", icon.Data),
+                new XAttribute("Data", icon.FilledData),
                 new XAttribute("Keyword", icon.Keyword ?? string.Empty),
                 new XAttribute("CreatedTime", icon.CreatedTime.ToString("d")),
                 new XAttribute("ModifiedTime", icon.ModifiedTime == DateTime.MinValue ? string.Empty : icon.ModifiedTime.ToString("d")),
@@ -200,7 +200,7 @@ namespace YourIcons.Model
             icon.Name = element.Attribute("Name").Value;
             icon.Width = Math.Round(double.Parse(element.Attribute("Width").Value));
             icon.Height = Math.Round(double.Parse(element.Attribute("Height").Value));
-            icon.Data = element.Attribute("Data").Value;
+            icon.FilledData = element.Attribute("Data").Value;
 
             if (element.Attribute("IsFavourite") != null)
                 icon.IsFavourite = bool.Parse(element.Attribute("IsFavourite").Value);

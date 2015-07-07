@@ -182,7 +182,7 @@ namespace YourIcons.ViewModel
                     new XAttribute("Height", SelectedIconSize.Height - Margin),
                     new XAttribute("Stretch", "Uniform"),
                     new XAttribute("Fill", ForegroundColor),
-                    new XAttribute("Data", ExportIcon.Data))
+                    new XAttribute("Data", ExportIcon.FilledData))
                 );
             //<Canvas Width="48"
             //        Height="48"
